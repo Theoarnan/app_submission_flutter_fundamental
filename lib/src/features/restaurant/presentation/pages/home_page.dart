@@ -1,5 +1,8 @@
 import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/home_header_section.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_restaurant.dart';
+import 'package:app_submission_flutter_fundamental/src/features/router/router_app_path.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,53 +24,43 @@ class _HomePageState extends State<HomePage> {
           '${ConstantName.dirAssetImg}logo.png',
           width: 120,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(RouterAppPath.searchPage);
+            },
+            icon: const Icon(
+              Icons.search,
+              color: ThemeCustom.primaryColor,
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: SizedBox(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          text: 'Hi, ',
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: ThemeCustom.secondaryColor,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Arnan A Theopilus 👋',
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: ThemeCustom.primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Find your favorite food in popular restaurant',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: ThemeCustom.secondaryColor,
-                        ),
-                      ),
-                    ],
+                // Header Section
+                const HomeHeaderSection(),
+                const SizedBox(
+                  height: 16,
+                ),
+                // List Section
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - 200,
+                  child: ListView.separated(
+                    itemCount: 10,
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    },
+                    itemBuilder: (context, index) {
+                      return const ListTileRestaurant();
+                    },
                   ),
-                )
+                ),
               ],
             ),
           ),
