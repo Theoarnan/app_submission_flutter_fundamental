@@ -1,4 +1,6 @@
 import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/router/router_app_path.dart';
 import 'package:flutter/material.dart';
 
 class ListTileRestaurant extends StatelessWidget {
@@ -6,32 +8,13 @@ class ListTileRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget iconText({Icon? icon, String? data}) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          icon!,
-          const SizedBox(
-            width: 6,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width - 180,
-            child: Text(
-              data!,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[700],
-              ),
-            ),
-          )
-        ],
-      );
-    }
-
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(RouterAppPath.detailRestaurantPage);
+        // Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //   return const DetailRestaurantPage();
+        // }));
+      },
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -53,8 +36,8 @@ class ListTileRestaurant extends StatelessWidget {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
+            children: const [
+              Padding(
                 padding: EdgeInsets.only(left: 4),
                 child: Text(
                   'Restaurant 1',
@@ -67,22 +50,22 @@ class ListTileRestaurant extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 8,
               ),
-              iconText(
-                icon: const Icon(
+              IconTextCustom(
+                icon: Icon(
                   Icons.place,
                   size: 16,
                   color: ThemeCustom.blueColor,
                 ),
                 data: 'Jl. Hokkya No 43 Kec. Paron, Ngawi, Jawa Timur',
               ),
-              const SizedBox(
+              SizedBox(
                 height: 4,
               ),
-              iconText(
-                icon: const Icon(
+              IconTextCustom(
+                icon: Icon(
                   Icons.star,
                   size: 16,
                   color: ThemeCustom.yellowColor,

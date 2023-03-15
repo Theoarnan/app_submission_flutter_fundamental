@@ -1,4 +1,5 @@
 import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/detail_restaurant_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/home_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/search_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/splash_page.dart';
@@ -21,12 +22,13 @@ class MyApp extends StatelessWidget {
       title: 'Moo Makan',
       theme: ThemeCustom.themeSetting(),
       navigatorKey: navigationKey,
-      initialRoute: RouterAppPath.searchPage,
+      initialRoute: RouterAppPath.splashPage,
       routes: {
         RouterAppPath.splashPage: (context) => const SplashPage(),
         RouterAppPath.homePage: (context) => const HomePage(),
         RouterAppPath.searchPage: (context) => const SearchPage(),
-        RouterAppPath.detailRestaurantPage: (context) => Container(),
+        RouterAppPath.detailRestaurantPage: (context) =>
+            const DetailRestaurantPage(),
       },
     );
   }
