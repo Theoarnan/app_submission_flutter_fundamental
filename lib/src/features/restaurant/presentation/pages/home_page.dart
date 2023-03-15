@@ -45,12 +45,10 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header Section
                 const HomeHeaderSection(),
                 const SizedBox(
                   height: 16,
                 ),
-                // List Section
                 FutureBuilder<List<RestaurantModel>>(
                   future: ServicesImpl().getRestaurantData(),
                   builder: (context, snapshot) {
@@ -78,7 +76,9 @@ class _HomePageState extends State<HomePage> {
                         height: MediaQuery.of(context).size.height - 200,
                         child: Center(
                           child: ElevatedButton(
-                            onPressed: () => ServicesImpl().getRestaurantData(),
+                            onPressed: () {
+                              setState(() {});
+                            },
                             child: const Text(
                               'Try Again',
                               style: TextStyle(

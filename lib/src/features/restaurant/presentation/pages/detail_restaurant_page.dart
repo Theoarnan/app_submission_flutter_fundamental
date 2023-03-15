@@ -46,14 +46,21 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                 children: [
                   Container(
                     height: 200,
+                    width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          data.pictureId,
-                        ),
-                        fit: BoxFit.fitWidth,
+                    child: FadeInImage(
+                      image: NetworkImage(
+                        data.pictureId,
                       ),
+                      placeholder: const AssetImage(
+                          '${ConstantName.dirAssetImg}placeholder_image.png'),
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                            '${ConstantName.dirAssetImg}placeholder_image.png',
+                            fit: BoxFit.fitWidth);
+                      },
+                      fit: BoxFit.fitWidth,
+                      placeholderFit: BoxFit.fitWidth,
                     ),
                   ),
                   Positioned(
