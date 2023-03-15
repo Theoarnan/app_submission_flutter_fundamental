@@ -1,7 +1,9 @@
 import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/home_header_section.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_restaurant.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/services/services.dart';
 import 'package:app_submission_flutter_fundamental/src/features/router/router_app_path.dart';
 import 'package:flutter/material.dart';
 
@@ -49,17 +51,52 @@ class _HomePageState extends State<HomePage> {
                   height: 16,
                 ),
                 // List Section
-                SizedBox(
-                  height: MediaQuery.of(context).size.height - 200,
-                  child: ListView.separated(
-                    itemCount: 10,
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                    itemBuilder: (context, index) {
-                      return const ListTileRestaurant();
-                    },
-                  ),
+                FutureBuilder<List<RestaurantModel>>(
+                  future: ServicesImpl().getRestaurantData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final List<RestaurantModel>? data = snapshot.data;
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 200,
+                        child: ListView.separated(
+                          itemCount: data!.length,
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                          itemBuilder: (context, index) {
+                            final dataRestaurant = data[index];
+                            return ListTileRestaurant(
+                              dataRestaurant: dataRestaurant,
+                            );
+                          },
+                        ),
+                      );
+                    }
+
+                    if (snapshot.hasError) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 200,
+                        child: Center(
+                          child: ElevatedButton(
+                            onPressed: () => ServicesImpl().getRestaurantData(),
+                            child: const Text(
+                              'Try Again',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - 200,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

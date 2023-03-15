@@ -1,11 +1,16 @@
 import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/sliver_app_delegate.dart';
 import 'package:flutter/material.dart';
 
 class DetailRestaurantPage extends StatefulWidget {
-  const DetailRestaurantPage({Key? key}) : super(key: key);
+  final RestaurantModel restaurantModel;
+  const DetailRestaurantPage({
+    Key? key,
+    required this.restaurantModel,
+  }) : super(key: key);
 
   @override
   State<DetailRestaurantPage> createState() => _DetailRestaurantPageState();
@@ -29,6 +34,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
 
   @override
   Widget build(BuildContext context) {
+    final data = widget.restaurantModel;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -41,10 +47,10 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                   Container(
                     height: 200,
                     margin: const EdgeInsets.only(bottom: 8),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(
-                          'https://restaurant-api.dicoding.dev/images/medium/03',
+                          data.pictureId,
                         ),
                         fit: BoxFit.fitWidth,
                       ),
@@ -71,7 +77,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                 ],
               ),
             ),
-            _header('Kafe Kita', 24),
+            _header(data.name, 24),
             SliverToBoxAdapter(
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -79,25 +85,25 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     IconTextCustom(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.place,
                         size: 16,
                         color: ThemeCustom.blueColor,
                       ),
-                      data: 'Jl. Hokkya No 43 Kec. Paron, Ngawi, Jawa Timur',
+                      data: data.city,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
                     IconTextCustom(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.star,
                         size: 16,
                         color: ThemeCustom.yellowColor,
                       ),
-                      data: '4.6',
+                      data: data.rating,
                     ),
                   ],
                 ),
@@ -123,7 +129,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                       height: 4,
                     ),
                     Text(
-                      testText,
+                      data.description,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey[600],
@@ -150,7 +156,9 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                           GridView.count(
                             crossAxisCount: 2,
                             physics: const ClampingScrollPhysics(),
-                            children: List.generate(14, (index) {
+                            children:
+                                List.generate(data.menus.foods.length, (index) {
+                              final food = data.menus.foods[index];
                               return Card(
                                 color: Colors.white,
                                 elevation: 1,
@@ -169,11 +177,11 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0,
                                       ).copyWith(bottom: 8),
-                                      child: const Text(
-                                        'Salad lengkeng',
+                                      child: Text(
+                                        food.name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -187,7 +195,9 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                           GridView.count(
                             crossAxisCount: 2,
                             physics: const ClampingScrollPhysics(),
-                            children: List.generate(9, (index) {
+                            children: List.generate(data.menus.drinks.length,
+                                (index) {
+                              final drink = data.menus.drinks[index];
                               return Card(
                                 color: Colors.white,
                                 elevation: 1,
@@ -206,11 +216,11 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0,
                                       ).copyWith(bottom: 8),
-                                      child: const Text(
-                                        'Kopi espresso',
+                                      child: Text(
+                                        drink.name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,
                                         ),
