@@ -33,7 +33,6 @@ class ServicesImpl implements Services {
         }).toList());
   }
 
-  // Handle get data json
   getDataJson() async {
     final String response =
         await rootBundle.loadString(ConstantName.dirAssetJson);
