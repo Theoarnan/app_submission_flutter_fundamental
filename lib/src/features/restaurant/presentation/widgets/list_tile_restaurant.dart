@@ -1,16 +1,25 @@
+import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/router/router_app_path.dart';
 import 'package:flutter/material.dart';
 
 class ListTileRestaurant extends StatelessWidget {
-  const ListTileRestaurant({Key? key}) : super(key: key);
+  final RestaurantModel dataRestaurant;
+  const ListTileRestaurant({
+    Key? key,
+    required this.dataRestaurant,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigator.of(context).pushNamed(RouterAppPath.detailRestaurantPage);
+        Navigator.of(context).pushNamed(
+          RouterAppPath.detailRestaurantPage,
+          arguments: dataRestaurant,
+        );
         // Navigator.push(context, MaterialPageRoute(builder: (context) {
         //   return const DetailRestaurantPage();
         // }));
@@ -18,17 +27,22 @@ class ListTileRestaurant extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            height: 100,
+          SizedBox(
+            height: 80,
             width: 100,
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                image: NetworkImage(
-                  'https://restaurant-api.dicoding.dev/images/medium/14',
-                ),
-                fit: BoxFit.cover,
+            child: FadeInImage(
+              image: NetworkImage(
+                dataRestaurant.pictureId,
               ),
-              borderRadius: BorderRadius.circular(8),
+              placeholder: const AssetImage(
+                  '${ConstantName.dirAssetImg}placeholder_image.png'),
+              imageErrorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                    '${ConstantName.dirAssetImg}placeholder_image.png',
+                    fit: BoxFit.fitWidth);
+              },
+              fit: BoxFit.cover,
+              placeholderFit: BoxFit.fitWidth,
             ),
           ),
           const SizedBox(
@@ -36,41 +50,41 @@ class ListTileRestaurant extends StatelessWidget {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.only(left: 4),
+                padding: const EdgeInsets.only(left: 4),
                 child: Text(
-                  'Restaurant 1',
+                  dataRestaurant.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: ThemeCustom.secondaryColor,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 8,
+              const SizedBox(
+                height: 10,
               ),
               IconTextCustom(
-                icon: Icon(
+                icon: const Icon(
                   Icons.place,
                   size: 16,
                   color: ThemeCustom.blueColor,
                 ),
-                data: 'Jl. Hokkya No 43 Kec. Paron, Ngawi, Jawa Timur',
+                data: dataRestaurant.city,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               IconTextCustom(
-                icon: Icon(
+                icon: const Icon(
                   Icons.star,
                   size: 16,
                   color: ThemeCustom.yellowColor,
                 ),
-                data: '4.6',
+                data: dataRestaurant.rating.toString(),
               ),
             ],
           ),

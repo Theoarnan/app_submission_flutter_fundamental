@@ -14,7 +14,7 @@ class HomeHeaderSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           SizedBox(
-            height: 24,
+            height: 28,
           ),
           Text.rich(
             TextSpan(
@@ -22,6 +22,7 @@ class HomeHeaderSection extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 color: ThemeCustom.secondaryColor,
+                fontWeight: FontWeight.bold,
               ),
               children: [
                 TextSpan(
@@ -36,7 +37,7 @@ class HomeHeaderSection extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 18,
+            height: 12,
           ),
           Text(
             'Find your favorite food in popular restaurant',
