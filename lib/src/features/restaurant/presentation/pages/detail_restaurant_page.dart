@@ -1,6 +1,7 @@
 import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/models/restaurant_model.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/grid_detail_restaurant.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/sliver_app_delegate.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
       backgroundColor: Colors.white,
       body: SafeArea(
         child: CustomScrollView(
-          physics: const ClampingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
               child: Stack(
@@ -48,19 +49,22 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                     height: 200,
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.only(bottom: 8),
-                    child: FadeInImage(
-                      image: NetworkImage(
-                        data.pictureId,
+                    child: Hero(
+                      tag: data.pictureId,
+                      child: FadeInImage(
+                        image: NetworkImage(
+                          data.pictureId,
+                        ),
+                        placeholder: const AssetImage(
+                            '${ConstantName.dirAssetImg}placeholder_image.png'),
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                              '${ConstantName.dirAssetImg}placeholder_image.png',
+                              fit: BoxFit.fitWidth);
+                        },
+                        fit: BoxFit.fitWidth,
+                        placeholderFit: BoxFit.fitWidth,
                       ),
-                      placeholder: const AssetImage(
-                          '${ConstantName.dirAssetImg}placeholder_image.png'),
-                      imageErrorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                            '${ConstantName.dirAssetImg}placeholder_image.png',
-                            fit: BoxFit.fitWidth);
-                      },
-                      fit: BoxFit.fitWidth,
-                      placeholderFit: BoxFit.fitWidth,
                     ),
                   ),
                   Positioned(
@@ -146,101 +150,23 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                 ),
               ),
             ),
-            _header2('Menu Restaurant', 18),
+            _headerTabbar('Menu Restaurant', 18),
             SliverToBoxAdapter(
               child: Container(
+                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: TabBarView(
+                  controller: controller,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: TabBarView(
-                        controller: controller,
-                        children: [
-                          GridView.count(
-                            crossAxisCount: 2,
-                            physics: const ClampingScrollPhysics(),
-                            children:
-                                List.generate(data.menus.foods.length, (index) {
-                              final food = data.menus.foods[index];
-                              return Card(
-                                color: Colors.white,
-                                elevation: 1,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset(
-                                          '${ConstantName.dirAssetImg}illustration_food.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0,
-                                      ).copyWith(bottom: 8),
-                                      child: Text(
-                                        food.name,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                          ),
-                          GridView.count(
-                            crossAxisCount: 2,
-                            physics: const ClampingScrollPhysics(),
-                            children: List.generate(data.menus.drinks.length,
-                                (index) {
-                              final drink = data.menus.drinks[index];
-                              return Card(
-                                color: Colors.white,
-                                elevation: 1,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset(
-                                          '${ConstantName.dirAssetImg}illustration_drink.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0,
-                                      ).copyWith(bottom: 8),
-                                      child: Text(
-                                        drink.name,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                          ),
-                        ],
-                      ),
-                    )
+                    GridDetailRestaurant(
+                      data: data.menus.foods,
+                    ),
+                    GridDetailRestaurant(
+                      data: data.menus.drinks,
+                      isFoodsSection: false,
+                    ),
                   ],
                 ),
               ),
@@ -255,7 +181,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(
-        minHeight: 50,
+        minHeight: 30,
         maxHeight: 50,
         child: Container(
           padding: const EdgeInsets.symmetric(
@@ -279,7 +205,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
     );
   }
 
-  SliverPersistentHeader _header2(String text, double fontSize) {
+  SliverPersistentHeader _headerTabbar(String text, double fontSize) {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(
@@ -313,43 +239,13 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                     ThemeCustom.secondaryColor.withOpacity(0.8),
                 labelColor: ThemeCustom.primaryColor,
                 tabs: [
-                  Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.restaurant_menu_sharp,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'Foods',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
+                  _tabCustom(
+                    icon: Icons.restaurant_menu_sharp,
+                    title: 'Foods',
                   ),
-                  Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.coffee,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'Drinks',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
+                  _tabCustom(
+                    icon: Icons.coffee,
+                    title: 'Drinks',
                   ),
                 ],
               ),
@@ -359,7 +255,29 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
       ),
     );
   }
-}
 
-String testText =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac convallis dui, quis convallis magna. Sed a enim et risus facilisis rhoncus sit amet sed enim. Sed mollis luctus libero, laoreet tempus mi convallis at. Cras aliquam ac mauris vitae ullamcorper. Proin mollis non nisl malesuada tempor. Donec non quam id sem ultricies dictum nec non urna. Duis leo ante, venenatis in elementum vel, ultricies non ipsum. Morbi laoreet sem et sem laoreet suscipit. Donec nec neque volutpat, viverra ante ac, ullamcorper tortor';
+  Tab _tabCustom({
+    required IconData icon,
+    required String title,
+  }) {
+    return Tab(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+          ),
+          const SizedBox(
+            width: 4,
+          ),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

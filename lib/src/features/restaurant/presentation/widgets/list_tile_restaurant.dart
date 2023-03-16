@@ -20,9 +20,6 @@ class ListTileRestaurant extends StatelessWidget {
           RouterAppPath.detailRestaurantPage,
           arguments: dataRestaurant,
         );
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return const DetailRestaurantPage();
-        // }));
       },
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -30,19 +27,22 @@ class ListTileRestaurant extends StatelessWidget {
           SizedBox(
             height: 80,
             width: 100,
-            child: FadeInImage(
-              image: NetworkImage(
-                dataRestaurant.pictureId,
+            child: Hero(
+              tag: dataRestaurant.pictureId,
+              child: FadeInImage(
+                image: NetworkImage(
+                  dataRestaurant.pictureId,
+                ),
+                placeholder: const AssetImage(
+                    '${ConstantName.dirAssetImg}placeholder_image.png'),
+                imageErrorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                      '${ConstantName.dirAssetImg}placeholder_image.png',
+                      fit: BoxFit.fitWidth);
+                },
+                fit: BoxFit.cover,
+                placeholderFit: BoxFit.fitWidth,
               ),
-              placeholder: const AssetImage(
-                  '${ConstantName.dirAssetImg}placeholder_image.png'),
-              imageErrorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                    '${ConstantName.dirAssetImg}placeholder_image.png',
-                    fit: BoxFit.fitWidth);
-              },
-              fit: BoxFit.cover,
-              placeholderFit: BoxFit.fitWidth,
             ),
           ),
           const SizedBox(

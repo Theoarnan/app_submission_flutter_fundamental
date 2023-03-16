@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 abstract class Services {
   Future<List<RestaurantModel>> getRestaurantData();
-  Future<List<RestaurantModel>?> searchRestaurantData(String search);
+  Future<List<RestaurantModel>?> searchRestaurantData(String? search);
 }
 
 class ServicesImpl implements Services {
