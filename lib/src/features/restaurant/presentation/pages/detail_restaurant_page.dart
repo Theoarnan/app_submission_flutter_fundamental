@@ -40,7 +40,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
       backgroundColor: Colors.white,
       body: SafeArea(
         child: CustomScrollView(
-          physics: const ClampingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
               child: Stack(
@@ -153,27 +153,20 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
             _headerTabbar('Menu Restaurant', 18),
             SliverToBoxAdapter(
               child: Container(
+                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: TabBarView(
+                  controller: controller,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: TabBarView(
-                        controller: controller,
-                        children: [
-                          GridDetailRestaurant(
-                            data: data.menus.foods,
-                          ),
-                          GridDetailRestaurant(
-                            data: data.menus.drinks,
-                            isFoodsSection: false,
-                          ),
-                        ],
-                      ),
-                    )
+                    GridDetailRestaurant(
+                      data: data.menus.foods,
+                    ),
+                    GridDetailRestaurant(
+                      data: data.menus.drinks,
+                      isFoodsSection: false,
+                    ),
                   ],
                 ),
               ),
