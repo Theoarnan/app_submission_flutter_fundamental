@@ -26,7 +26,7 @@ class HomeHeaderSection extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: 'Arnan A Theopilus 👋',
+                  text: 'Arnan A Theopilus',
                   style: TextStyle(
                     fontSize: 24,
                     color: ThemeCustom.primaryColor,
