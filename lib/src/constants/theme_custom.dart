@@ -12,7 +12,6 @@ class ThemeCustom {
     return ThemeData(
       primarySwatch: Colors.orange,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      backgroundColor: Colors.white,
       fontFamily: GoogleFonts.rubik().fontFamily,
     );
   }

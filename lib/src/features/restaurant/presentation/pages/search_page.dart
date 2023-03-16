@@ -47,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
                       Expanded(
                         child: TextField(
                           controller: searchController,
-                          autofocus: false,
+                          autofocus: true,
                           decoration: InputDecoration(
                             hintText: 'Search restaurant or city...',
                             contentPadding:
