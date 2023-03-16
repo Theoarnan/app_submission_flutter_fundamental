@@ -23,7 +23,7 @@ class _SearchPageState extends State<SearchPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: size.height,
+            height: size.height - 40,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
