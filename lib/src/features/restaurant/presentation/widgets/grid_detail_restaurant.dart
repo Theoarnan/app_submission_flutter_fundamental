@@ -1,9 +1,9 @@
-import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/models/food_drink_model.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/food_drink_model.dart';
 import 'package:flutter/material.dart';
 
 class GridDetailRestaurant extends StatelessWidget {
-  final List<FoodDrinkModel> data;
+  final List<FoodDrinkCategoriesModel> data;
   final bool isFoodsSection;
   const GridDetailRestaurant({
     super.key,
