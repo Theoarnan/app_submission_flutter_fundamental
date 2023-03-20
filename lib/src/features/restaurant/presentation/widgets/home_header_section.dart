@@ -1,4 +1,4 @@
-import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:flutter/material.dart';
 
 class HomeHeaderSection extends StatelessWidget {

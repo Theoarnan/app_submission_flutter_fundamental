@@ -7,6 +7,7 @@ class ThemeCustom {
   static const Color thirdColor = Color(0xFFD8D8D8);
   static const Color blueColor = Color(0xFF4FB6FF);
   static const Color yellowColor = Color(0xFFFAB700);
+  static const Color redColor = Color.fromARGB(255, 255, 110, 74);
 
   static ThemeData themeSetting() {
     return ThemeData(

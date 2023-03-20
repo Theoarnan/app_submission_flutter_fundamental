@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
-import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
-import 'package:app_submission_flutter_fundamental/src/features/router/router_app_path.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -35,8 +35,10 @@ class _SplashPageState extends State<SplashPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('${ConstantName.dirAssetImg}logo_app.png',
-                  fit: BoxFit.fill),
+              Image.asset(
+                '${ConstantName.dirAssetImg}logo_app.png',
+                fit: BoxFit.fill,
+              ),
               const SizedBox(
                 height: 50,
               ),

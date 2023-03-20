@@ -1,12 +1,13 @@
-import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
-import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/models/restaurant_model.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc_cubit.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/home_header_section.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_restaurant.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/services/services.dart';
-import 'package:app_submission_flutter_fundamental/src/features/router/router_app_path.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<RestaurantBlocCubit>(context).getAllDataRestaurant();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -31,6 +38,8 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
+              BlocProvider.of<RestaurantBlocCubit>(context)
+                  .getAllDataRestaurant();
               Navigator.of(context).pushNamed(RouterAppPath.searchPage);
             },
             icon: const Icon(
@@ -50,11 +59,19 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 16,
                 ),
-                FutureBuilder<List<RestaurantModel>>(
-                  future: ServicesImpl().getRestaurantData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final List<RestaurantModel>? data = snapshot.data;
+                BlocBuilder<RestaurantBlocCubit, RestaurantState>(
+                  builder: (context, state) {
+                    if (state is RestaurantLoadingState) {
+                      return SizedBox(
+                        height: size.height * 0.78,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
+                    if (state is RestaurantLoadedState) {
+                      final List<RestaurantModel>? data = state.data;
                       return SizedBox(
                         height: size.height * 0.78,
                         child: ListView.separated(
@@ -74,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     }
 
-                    if (snapshot.hasError) {
+                    if (state is RestaurantErrorState) {
                       return SizedBox(
                         height: size.height * 0.78,
                         child: Center(
@@ -88,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                                 subTitle: 'We failed to load restaurant data',
                                 withoutButton: false,
                                 onPressed: () {
-                                  setState(() {});
+                                  RestaurantBlocCubit().getAllDataRestaurant();
                                 },
                                 titleButton: 'Try Again',
                               ),
@@ -97,13 +114,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     }
-
-                    return SizedBox(
-                      height: size.height * 0.78,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
+                    return const SizedBox();
                   },
                 ),
               ],
