@@ -95,33 +95,23 @@ class _SearchPageState extends State<SearchPage> {
                       if (state is RestaurantErrorState ||
                           state is NoInternetState) {
                         final noInternetState = state is NoInternetState;
-                        return SizedBox(
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                EmptyErrorState(
-                                  imgAsset: noInternetState
-                                      ? '${ConstantName.dirAssetImg}no_internet.png'
-                                      : '${ConstantName.dirAssetImg}illustration_error.png',
-                                  title: 'Sorry,',
-                                  subTitle: noInternetState
-                                      ? "We we can't connect internet, please check your connection"
-                                      : 'We failed to load restaurant data',
-                                  withoutButton: false,
-                                  onPressed: () {
-                                    BlocProvider.of<RestaurantBloc>(context)
-                                        .add(
-                                      SearchDataRestaurant(
-                                        search: searchController.text,
-                                      ),
-                                    );
-                                  },
-                                  titleButton: 'Try Again',
-                                ),
-                              ],
-                            ),
-                          ),
+                        return EmptyErrorState(
+                          imgAsset: noInternetState
+                              ? '${ConstantName.dirAssetImg}no_internet.png'
+                              : '${ConstantName.dirAssetImg}illustration_error.png',
+                          title: 'Sorry,',
+                          subTitle: noInternetState
+                              ? "We we can't connect internet, please check your connection"
+                              : 'We failed to load restaurant data',
+                          withoutButton: false,
+                          onPressed: () {
+                            BlocProvider.of<RestaurantBloc>(context).add(
+                              SearchDataRestaurant(
+                                search: searchController.text,
+                              ),
+                            );
+                          },
+                          titleButton: 'Try Again',
                         );
                       }
 

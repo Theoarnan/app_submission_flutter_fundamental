@@ -71,24 +71,17 @@ class _HomePageState extends State<HomePage> {
 
                   if (state is NoInternetState) {
                     return Expanded(
-                      flex: 3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          EmptyErrorState(
-                            imgAsset:
-                                '${ConstantName.dirAssetImg}no_internet.png',
-                            title: 'Sorry,',
-                            subTitle:
-                                "We we can't connect internet, please check your connection",
-                            withoutButton: false,
-                            onPressed: () async {
-                              BlocProvider.of<RestaurantBloc>(context)
-                                  .add(GetAllDataRestaurant());
-                            },
-                            titleButton: 'Refresh',
-                          ),
-                        ],
+                      child: EmptyErrorState(
+                        imgAsset: '${ConstantName.dirAssetImg}no_internet.png',
+                        title: 'Sorry,',
+                        subTitle:
+                            "We we can't connect internet, please check your connection",
+                        withoutButton: false,
+                        onPressed: () async {
+                          BlocProvider.of<RestaurantBloc>(context)
+                              .add(GetAllDataRestaurant());
+                        },
+                        titleButton: 'Refresh',
                       ),
                     );
                   }
@@ -118,24 +111,17 @@ class _HomePageState extends State<HomePage> {
 
                   if (state is RestaurantErrorState) {
                     return Expanded(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            EmptyErrorState(
-                              imgAsset:
-                                  '${ConstantName.dirAssetImg}illustration_error.png',
-                              title: 'Sorry,',
-                              subTitle: 'We failed to load restaurant data',
-                              withoutButton: false,
-                              onPressed: () {
-                                BlocProvider.of<RestaurantBloc>(context)
-                                    .add(GetAllDataRestaurant());
-                              },
-                              titleButton: 'Try Again',
-                            ),
-                          ],
-                        ),
+                      child: EmptyErrorState(
+                        imgAsset:
+                            '${ConstantName.dirAssetImg}illustration_error.png',
+                        title: 'Sorry,',
+                        subTitle: 'We failed to load restaurant data',
+                        withoutButton: false,
+                        onPressed: () {
+                          BlocProvider.of<RestaurantBloc>(context)
+                              .add(GetAllDataRestaurant());
+                        },
+                        titleButton: 'Try Again',
                       ),
                     );
                   }
