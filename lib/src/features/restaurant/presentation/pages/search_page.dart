@@ -1,7 +1,7 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc_cubit.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_restaurant.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class _SearchPageState extends State<SearchPage> {
     final size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
-        BlocProvider.of<RestaurantBlocCubit>(context).getAllDataRestaurant();
+        BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
         return true;
       },
       child: Scaffold(
@@ -42,8 +42,8 @@ class _SearchPageState extends State<SearchPage> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            BlocProvider.of<RestaurantBlocCubit>(context)
-                                .getAllDataRestaurant();
+                            BlocProvider.of<RestaurantBloc>(context)
+                                .add(GetAllDataRestaurant());
                             Navigator.maybePop(context);
                           },
                           icon: const Icon(
@@ -70,8 +70,11 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             ),
                             onChanged: (value) {
-                              BlocProvider.of<RestaurantBlocCubit>(context)
-                                  .searchDataRestaurant(searchController.text);
+                              BlocProvider.of<RestaurantBloc>(context).add(
+                                SearchDataRestaurant(
+                                  search: searchController.text,
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -79,7 +82,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                   Expanded(
-                    child: BlocBuilder<RestaurantBlocCubit, RestaurantState>(
+                    child: BlocBuilder<RestaurantBloc, RestaurantState>(
                         builder: (context, state) {
                       if (state is RestaurantLoadingState) {
                         return const SizedBox(
@@ -107,10 +110,12 @@ class _SearchPageState extends State<SearchPage> {
                                       : 'We failed to load restaurant data',
                                   withoutButton: false,
                                   onPressed: () {
-                                    BlocProvider.of<RestaurantBlocCubit>(
-                                            context)
-                                        .searchDataRestaurant(
-                                            searchController.text);
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(
+                                      SearchDataRestaurant(
+                                        search: searchController.text,
+                                      ),
+                                    );
                                   },
                                   titleButton: 'Try Again',
                                 ),
