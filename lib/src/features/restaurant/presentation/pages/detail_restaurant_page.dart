@@ -433,14 +433,13 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.36,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+            child: Wrap(
+              runSpacing: 16,
               children: [
-                const SizedBox(
-                  height: 16,
-                ),
                 const Padding(
                   padding: EdgeInsets.only(left: 4),
                   child: Text(
@@ -451,9 +450,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 TextFormField(
                   controller: nameController,
@@ -470,62 +466,52 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: TextFormField(
-                    controller: reviewontroller,
-                    keyboardType: TextInputType.multiline,
-                    textAlignVertical: TextAlignVertical.center,
-                    maxLines: 8,
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Review',
-                      hintText: 'Review...',
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: ThemeCustom.thirdColor,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
+                TextFormField(
+                  controller: reviewontroller,
+                  keyboardType: TextInputType.multiline,
+                  textAlignVertical: TextAlignVertical.center,
+                  maxLines: 8,
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: 'Review',
+                    hintText: 'Review...',
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: ThemeCustom.thirdColor,
                       ),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 14,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 46,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                    style: ElevatedButton.styleFrom(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    onPressed: () {
+                      final name = nameController.text;
+                      final review = reviewontroller.text;
+                      Map<String, dynamic> body = {
+                        'id': widget.restaurantModel.id,
+                        'name': name,
+                        'review': review
+                      };
+                      BlocProvider.of<RestaurantBloc>(context)
+                          .add(AddReviewRestaurant(review: body));
+                    },
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
                       ),
-                      onPressed: () {
-                        final name = nameController.text;
-                        final review = reviewontroller.text;
-                        Map<String, dynamic> body = {
-                          'id': widget.restaurantModel.id,
-                          'name': name,
-                          'review': review
-                        };
-                        BlocProvider.of<RestaurantBloc>(context)
-                            .add(AddReviewRestaurant(review: body));
-                      },
-                      child: const Text(
-                        'Submit',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      )),
-                ),
-                const SizedBox(
-                  height: 16,
+                    ),
+                  ),
                 ),
               ],
             ),
