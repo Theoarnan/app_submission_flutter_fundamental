@@ -136,7 +136,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                             widget.restaurantModel.id,
                           );
                         },
-                        titleButton: 'Try Again',
+                        titleButton: 'Refresh',
                       ),
                     ],
                   ),
@@ -533,7 +533,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: 40,
+                  height: 46,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         alignment: Alignment.center,

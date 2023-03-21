@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                                   BlocProvider.of<RestaurantBlocCubit>(context)
                                       .getAllDataRestaurant();
                                 },
-                                titleButton: 'Try Again',
+                                titleButton: 'Refresh',
                               ),
                             ],
                           ),
