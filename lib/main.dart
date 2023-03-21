@@ -1,6 +1,6 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc_cubit.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/detail_restaurant_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/home_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/search_page.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => RestaurantBlocCubit(),
+          create: (context) => RestaurantBloc(),
         )
       ],
       child: MaterialApp(

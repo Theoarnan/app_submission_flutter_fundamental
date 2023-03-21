@@ -1,7 +1,7 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc_cubit.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/home_header_section.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_restaurant.dart';
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<RestaurantBlocCubit>(context).getAllDataRestaurant();
+    BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
   }
 
   @override
@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
-              BlocProvider.of<RestaurantBlocCubit>(context)
-                  .getAllDataRestaurant();
+              BlocProvider.of<RestaurantBloc>(context)
+                  .add(GetAllDataRestaurant());
               Navigator.of(context).pushNamed(RouterAppPath.searchPage);
             },
             icon: const Icon(
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 16,
                 ),
-                BlocBuilder<RestaurantBlocCubit, RestaurantState>(
+                BlocBuilder<RestaurantBloc, RestaurantState>(
                   builder: (context, state) {
                     if (state is RestaurantLoadingState) {
                       return SizedBox(
@@ -85,10 +85,10 @@ class _HomePageState extends State<HomePage> {
                                     "We we can't connect internet, please check your connection",
                                 withoutButton: false,
                                 onPressed: () async {
-                                  BlocProvider.of<RestaurantBlocCubit>(context)
-                                      .getAllDataRestaurant();
+                                  BlocProvider.of<RestaurantBloc>(context)
+                                      .add(GetAllDataRestaurant());
                                 },
-                                titleButton: 'Try Again',
+                                titleButton: 'Refresh',
                               ),
                             ],
                           ),
@@ -131,8 +131,8 @@ class _HomePageState extends State<HomePage> {
                                 subTitle: 'We failed to load restaurant data',
                                 withoutButton: false,
                                 onPressed: () {
-                                  BlocProvider.of<RestaurantBlocCubit>(context)
-                                      .getAllDataRestaurant();
+                                  BlocProvider.of<RestaurantBloc>(context)
+                                      .add(GetAllDataRestaurant());
                                 },
                                 titleButton: 'Try Again',
                               ),

@@ -1,4 +1,4 @@
-part of 'restaurant_bloc_cubit.dart';
+part of 'restaurant_bloc.dart';
 
 abstract class RestaurantState {
   const RestaurantState();

@@ -1,7 +1,7 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc_cubit.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +18,8 @@ class ListTileRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        BlocProvider.of<RestaurantBlocCubit>(context).getDetailDataRestaurant(
-          dataRestaurant.id,
+        BlocProvider.of<RestaurantBloc>(context).add(
+          GetDetailDataRestaurant(id: dataRestaurant.id),
         );
         Navigator.of(context).pushNamed(
           RouterAppPath.detailRestaurantPage,
