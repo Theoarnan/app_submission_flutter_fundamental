@@ -56,7 +56,8 @@ class ListTileRestaurant extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              Container(
+                width: MediaQuery.of(context).size.width * 0.58,
                 padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   dataRestaurant.name,
