@@ -50,102 +50,97 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const HomeHeaderSection(),
-                const SizedBox(
-                  height: 16,
-                ),
-                BlocBuilder<RestaurantBloc, RestaurantState>(
-                  builder: (context, state) {
-                    if (state is RestaurantLoadingState) {
-                      return SizedBox(
-                        height: size.height * 0.78,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const HomeHeaderSection(),
+              const SizedBox(
+                height: 16,
+              ),
+              BlocBuilder<RestaurantBloc, RestaurantState>(
+                builder: (context, state) {
+                  if (state is RestaurantLoadingState) {
+                    return const Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
 
-                    if (state is NoInternetState) {
-                      return SizedBox(
-                        height: size.height * 0.78,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              EmptyErrorState(
-                                imgAsset:
-                                    '${ConstantName.dirAssetImg}no_internet.png',
-                                title: 'Sorry,',
-                                subTitle:
-                                    "We we can't connect internet, please check your connection",
-                                withoutButton: false,
-                                onPressed: () async {
-                                  BlocProvider.of<RestaurantBloc>(context)
-                                      .add(GetAllDataRestaurant());
-                                },
-                                titleButton: 'Refresh',
-                              ),
-                            ],
+                  if (state is NoInternetState) {
+                    return Expanded(
+                      flex: 3,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          EmptyErrorState(
+                            imgAsset:
+                                '${ConstantName.dirAssetImg}no_internet.png',
+                            title: 'Sorry,',
+                            subTitle:
+                                "We we can't connect internet, please check your connection",
+                            withoutButton: false,
+                            onPressed: () async {
+                              BlocProvider.of<RestaurantBloc>(context)
+                                  .add(GetAllDataRestaurant());
+                            },
+                            titleButton: 'Refresh',
                           ),
-                        ),
-                      );
-                    }
+                        ],
+                      ),
+                    );
+                  }
 
-                    if (state is RestaurantLoadedState) {
-                      final List<RestaurantModel>? data = state.data;
-                      return SizedBox(
-                        height: size.height * 0.78,
-                        child: ListView.separated(
-                          itemCount: data!.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                          itemBuilder: (context, index) {
-                            final dataRestaurant = data[index];
-                            return ListTileRestaurant(
-                              dataRestaurant: dataRestaurant,
-                            );
-                          },
-                        ),
-                      );
-                    }
+                  if (state is RestaurantLoadedState) {
+                    final List<RestaurantModel>? data = state.data;
+                    return Expanded(
+                      child: ListView.separated(
+                        itemCount: data!.length,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemBuilder: (context, index) {
+                          final dataRestaurant = data[index];
+                          return ListTileRestaurant(
+                            dataRestaurant: dataRestaurant,
+                          );
+                        },
+                      ),
+                    );
+                  }
 
-                    if (state is RestaurantErrorState) {
-                      return SizedBox(
-                        height: size.height * 0.78,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              EmptyErrorState(
-                                imgAsset:
-                                    '${ConstantName.dirAssetImg}illustration_error.png',
-                                title: 'Sorry,',
-                                subTitle: 'We failed to load restaurant data',
-                                withoutButton: false,
-                                onPressed: () {
-                                  BlocProvider.of<RestaurantBloc>(context)
-                                      .add(GetAllDataRestaurant());
-                                },
-                                titleButton: 'Try Again',
-                              ),
-                            ],
-                          ),
+                  if (state is RestaurantErrorState) {
+                    return Expanded(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            EmptyErrorState(
+                              imgAsset:
+                                  '${ConstantName.dirAssetImg}illustration_error.png',
+                              title: 'Sorry,',
+                              subTitle: 'We failed to load restaurant data',
+                              withoutButton: false,
+                              onPressed: () {
+                                BlocProvider.of<RestaurantBloc>(context)
+                                    .add(GetAllDataRestaurant());
+                              },
+                              titleButton: 'Try Again',
+                            ),
+                          ],
                         ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-              ],
-            ),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+            ],
           ),
         ),
       ),
