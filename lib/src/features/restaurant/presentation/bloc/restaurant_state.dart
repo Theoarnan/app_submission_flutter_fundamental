@@ -25,6 +25,8 @@ class RestaurantDetailLoadedState extends RestaurantState {
 
 class RestaurantAddReviewsSuccessState extends RestaurantState {}
 
+class NoInternetState extends RestaurantState {}
+
 class RestaurantErrorState extends RestaurantState {
   final String error;
   RestaurantErrorState({required this.error});

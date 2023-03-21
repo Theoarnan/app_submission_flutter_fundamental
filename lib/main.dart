@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         title: 'Moo Makan',
         theme: ThemeCustom.themeSetting(),
         navigatorKey: navigationKey,
-        initialRoute: RouterAppPath.homePage,
+        initialRoute: RouterAppPath.splashPage,
         routes: {
           RouterAppPath.splashPage: (context) => const SplashPage(),
           RouterAppPath.homePage: (context) => const HomePage(),

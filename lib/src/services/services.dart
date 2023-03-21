@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/customer_review_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_detail_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
 
 abstract class ApiServices {
   Future<List<CustomerReviewModel>> addReviewsRestaurant(
@@ -78,42 +76,5 @@ class ApiServicesImpl implements ApiServices {
     } else {
       throw Exception('Failed to load search restaurant data');
     }
-  }
-}
-
-abstract class Services {
-  Future<List<RestaurantModel>> getRestaurantData();
-  Future<List<RestaurantModel>?> searchRestaurantData(String? search);
-}
-
-class ServicesImpl implements Services {
-  @override
-  Future<List<RestaurantModel>> getRestaurantData() async {
-    Map<String, dynamic> decodeResponse = await getDataJson();
-    if (decodeResponse.isEmpty) {
-      return [];
-    }
-    return (decodeResponse['restaurants'] as List)
-        .map((e) => RestaurantModel.fromJson(e))
-        .toList();
-  }
-
-  @override
-  Future<List<RestaurantModel>?> searchRestaurantData(String? search) {
-    final dataRestaurant = getRestaurantData();
-    if (search!.isEmpty) return dataRestaurant;
-    return dataRestaurant.then((value) => value.where((element) {
-          var name = element.name;
-          var city = element.city;
-          return name.toLowerCase().contains(search.toLowerCase()) ||
-              city.toLowerCase().contains(search.toLowerCase());
-        }).toList());
-  }
-
-  getDataJson() async {
-    final String response =
-        await rootBundle.loadString(ConstantName.dirAssetJson);
-    var decodeResponse = json.decode(response);
-    return decodeResponse;
   }
 }

@@ -70,6 +70,32 @@ class _HomePageState extends State<HomePage> {
                       );
                     }
 
+                    if (state is NoInternetState) {
+                      return SizedBox(
+                        height: size.height * 0.78,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              EmptyErrorState(
+                                imgAsset:
+                                    '${ConstantName.dirAssetImg}no_internet.png',
+                                title: 'Sorry,',
+                                subTitle:
+                                    "We we can't connect internet, please check your connection",
+                                withoutButton: false,
+                                onPressed: () async {
+                                  BlocProvider.of<RestaurantBlocCubit>(context)
+                                      .getAllDataRestaurant();
+                                },
+                                titleButton: 'Try Again',
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+
                     if (state is RestaurantLoadedState) {
                       final List<RestaurantModel>? data = state.data;
                       return SizedBox(
@@ -105,7 +131,8 @@ class _HomePageState extends State<HomePage> {
                                 subTitle: 'We failed to load restaurant data',
                                 withoutButton: false,
                                 onPressed: () {
-                                  RestaurantBlocCubit().getAllDataRestaurant();
+                                  BlocProvider.of<RestaurantBlocCubit>(context)
+                                      .getAllDataRestaurant();
                                 },
                                 titleButton: 'Try Again',
                               ),
