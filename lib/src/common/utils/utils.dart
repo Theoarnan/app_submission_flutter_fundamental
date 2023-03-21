@@ -1,3 +1,5 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+
 class Utils {
   static String generateInitialText(String text) {
     String initial = '';
@@ -20,5 +22,11 @@ class Utils {
       }).toList();
     }
     return initial;
+  }
+
+  static Future<bool> isConnected() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) return false;
+    return true;
   }
 }

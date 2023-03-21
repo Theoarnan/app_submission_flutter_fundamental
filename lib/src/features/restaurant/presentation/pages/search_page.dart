@@ -89,21 +89,28 @@ class _SearchPageState extends State<SearchPage> {
                         );
                       }
 
-                      if (state is RestaurantErrorState) {
+                      if (state is RestaurantErrorState ||
+                          state is NoInternetState) {
+                        final noInternetState = state is NoInternetState;
                         return SizedBox(
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 EmptyErrorState(
-                                  imgAsset:
-                                      '${ConstantName.dirAssetImg}illustration_error.png',
+                                  imgAsset: noInternetState
+                                      ? '${ConstantName.dirAssetImg}no_internet.png'
+                                      : '${ConstantName.dirAssetImg}illustration_error.png',
                                   title: 'Sorry,',
-                                  subTitle: 'We failed to load restaurant data',
+                                  subTitle: noInternetState
+                                      ? "We we can't connect internet, please check your connection"
+                                      : 'We failed to load restaurant data',
                                   withoutButton: false,
                                   onPressed: () {
-                                    RestaurantBlocCubit()
-                                        .searchDataRestaurant('');
+                                    BlocProvider.of<RestaurantBlocCubit>(
+                                            context)
+                                        .searchDataRestaurant(
+                                            searchController.text);
                                   },
                                   titleButton: 'Try Again',
                                 ),

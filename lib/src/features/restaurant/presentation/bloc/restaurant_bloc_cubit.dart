@@ -1,3 +1,4 @@
+import 'package:app_submission_flutter_fundamental/src/common/utils/utils.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_detail_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/services/services.dart';
@@ -12,6 +13,7 @@ class RestaurantBlocCubit extends Cubit<RestaurantState> {
 
   void getAllDataRestaurant() async {
     emit(RestaurantLoadingState());
+    if (await Utils.isConnected() == false) return emit(NoInternetState());
     try {
       final data = await apiServicesImpl.getRestaurantData();
       emit(RestaurantLoadedState(data: data));
@@ -22,6 +24,7 @@ class RestaurantBlocCubit extends Cubit<RestaurantState> {
 
   void getDetailDataRestaurant(String id) async {
     emit(RestaurantLoadingState());
+    if (await Utils.isConnected() == false) return emit(NoInternetState());
     try {
       final data = await apiServicesImpl.getRestaurantDetail(id);
       emit(RestaurantDetailLoadedState(data: data));
@@ -32,6 +35,7 @@ class RestaurantBlocCubit extends Cubit<RestaurantState> {
 
   void searchDataRestaurant(String search) async {
     emit(RestaurantLoadingState());
+    if (await Utils.isConnected() == false) return emit(NoInternetState());
     try {
       final data = await apiServicesImpl.searchRestaurant(search);
       emit(RestaurantLoadedState(data: data));
@@ -42,6 +46,7 @@ class RestaurantBlocCubit extends Cubit<RestaurantState> {
 
   void addReviewRestaurant(Map<String, dynamic> reviews) async {
     emit(RestaurantLoadingState());
+    if (await Utils.isConnected() == false) return emit(NoInternetState());
     try {
       await apiServicesImpl.addReviewsRestaurant(reviews);
       emit(RestaurantAddReviewsSuccessState());

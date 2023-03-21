@@ -1,11 +1,11 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
-import 'package:app_submission_flutter_fundamental/src/common/utils/utils.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc_cubit.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/grid_detail_restaurant.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_review.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/sliver_app_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +52,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
         body: SafeArea(
           child: BlocListener<RestaurantBlocCubit, RestaurantState>(
             listener: (context, state) {
-              if (state is RestaurantAddReviewsSuccessState) {
+              if (state is RestaurantDetailLoadedState) {
                 Navigator.pop(context);
                 BlocProvider.of<RestaurantBlocCubit>(context)
                     .getDetailDataRestaurant(
@@ -74,7 +74,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                             children: [
                               const Icon(
                                 Icons.check_circle,
-                                size: 100,
+                                size: 90,
                                 color: Colors.green,
                               ),
                               const SizedBox(
@@ -115,20 +115,26 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                 );
               }
 
-              if (state is RestaurantErrorState) {
+              if (state is RestaurantErrorState || state is NoInternetState) {
+                final noInternetState = state is NoInternetState;
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       EmptyErrorState(
-                        imgAsset:
-                            '${ConstantName.dirAssetImg}illustration_error.png',
+                        imgAsset: noInternetState
+                            ? '${ConstantName.dirAssetImg}no_internet.png'
+                            : '${ConstantName.dirAssetImg}illustration_error.png',
                         title: 'Sorry,',
-                        subTitle: 'We failed to load detail restaurant data',
+                        subTitle: noInternetState
+                            ? "We we can't connect internet, please check your connection"
+                            : 'We failed to load restaurant data',
                         withoutButton: false,
                         onPressed: () {
-                          RestaurantBlocCubit().getDetailDataRestaurant(
-                              widget.restaurantModel.id);
+                          BlocProvider.of<RestaurantBlocCubit>(context)
+                              .getDetailDataRestaurant(
+                            widget.restaurantModel.id,
+                          );
                         },
                         titleButton: 'Try Again',
                       ),
@@ -316,7 +322,48 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                            'All Reviews',
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          content: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.3,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: ListView.separated(
+                                              shrinkWrap: true,
+                                              itemCount: data.customerReviews
+                                                  .reversed.length,
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      const Divider(),
+                                              itemBuilder: (context, index) {
+                                                final newReviews = data
+                                                    .customerReviews.reversed
+                                                    .toList();
+                                                return ListTileReview(
+                                                  data: newReviews[index],
+                                                  isDetailReviews: false,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
                                   child: const Text(
                                     'View All',
                                     style: TextStyle(
@@ -331,64 +378,24 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                               height: 6,
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.3,
                               child: ListView.separated(
+                                shrinkWrap: true,
                                 itemCount: data.customerReviews.length > 3
                                     ? 3
                                     : data.customerReviews.length,
                                 separatorBuilder: (context, index) =>
                                     const Divider(),
                                 itemBuilder: (context, index) {
-                                  return ListTile(
-                                    contentPadding: const EdgeInsets.all(0),
-                                    style: ListTileStyle.list,
-                                    leading: CircleAvatar(
-                                      child: Text(
-                                        Utils.generateInitialText(
-                                            data.customerReviews[index].name),
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          data.customerReviews[index].name,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 2,
-                                        ),
-                                        Text(
-                                          data.customerReviews[index].date,
-                                          style: const TextStyle(
-                                            color: ThemeCustom.thirdColor,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                      ],
-                                    ),
-                                    subtitle: Text(
-                                      data.customerReviews[index].review,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
+                                  final newReviews =
+                                      data.customerReviews.reversed.toList();
+                                  return ListTileReview(
+                                    data: newReviews[index],
                                   );
                                 },
                               ),
+                            ),
+                            const SizedBox(
+                              height: 6,
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
@@ -485,6 +492,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                 TextFormField(
                   controller: nameController,
                   decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
                     labelText: 'Name',
                     hintText: 'Name...',
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -497,20 +505,26 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                   ),
                 ),
                 const SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
-                TextFormField(
-                  controller: reviewontroller,
-                  maxLines: 8,
-                  decoration: InputDecoration(
-                    labelText: 'Review',
-                    hintText: 'Review...',
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: ThemeCustom.thirdColor,
+                Expanded(
+                  child: TextFormField(
+                    controller: reviewontroller,
+                    keyboardType: TextInputType.multiline,
+                    textAlignVertical: TextAlignVertical.center,
+                    maxLines: 8,
+                    decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelText: 'Review',
+                      hintText: 'Review...',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: ThemeCustom.thirdColor,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
