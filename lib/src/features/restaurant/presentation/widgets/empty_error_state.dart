@@ -27,7 +27,7 @@ class EmptyErrorState extends StatelessWidget {
         children: [
           Image.asset(
             imgAsset,
-            height: MediaQuery.of(context).size.height * 0.4,
+            height: MediaQuery.of(context).size.height * 0.3,
           ),
           const SizedBox(
             height: 6,

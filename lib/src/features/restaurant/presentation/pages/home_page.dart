@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -101,6 +100,9 @@ class _HomePageState extends State<HomePage> {
                         itemCount: data!.length,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                        ),
                         separatorBuilder: (context, index) {
                           return const Divider();
                         },
