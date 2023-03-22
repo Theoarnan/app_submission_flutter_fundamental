@@ -1,16 +1,29 @@
-# app_submission_flutter_fundamental
 
-A new Flutter project.
+# Submission 2 Dicoding
 
-## Getting Started
+This is a project for Submission Dicoding Belajar Fundamental Aplikasi Flutter 2023.
+ 
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Mau Makan
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+This is an application that displays accommodation that makes it easy for travelers to see and choose their vacation destinations.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%">
+
+#### Simple Features
+- Implementatation state management (Bloc)
+- Consume from API with http
+- Handling connectivity app
+- Add new feature: add review
+
+#### Dependencies
+- [Google Font](https://pub.dev/packages/google_fonts)
+## Screenshots
+
+![App Screenshot](https://drive.google.com/uc?export=view&id=1xCjTMsQaalpmL6Gunvpx2_cdDrlikzXt)
+
+
+## Authors
+
+- [@theoarnan](https://www.github.com/theoarnan)
