@@ -37,6 +37,8 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
   @override
   void dispose() {
     controller.dispose();
+    nameController.dispose();
+    reviewontroller.dispose();
     super.dispose();
   }
 

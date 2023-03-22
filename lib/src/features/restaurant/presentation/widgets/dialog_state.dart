@@ -2,7 +2,7 @@ import 'package:app_submission_flutter_fundamental/src/common/constants/theme_cu
 import 'package:flutter/material.dart';
 
 class DialogState {
-  // Dialog information
+  /// Dialog information
   static Future dialogState(
     BuildContext context, {
     required Icon icon,
