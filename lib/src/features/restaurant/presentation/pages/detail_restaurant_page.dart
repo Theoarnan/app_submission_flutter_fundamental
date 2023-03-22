@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
@@ -13,9 +15,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailRestaurantPage extends StatefulWidget {
   final RestaurantModel restaurantModel;
+  final bool isFromFavorites;
   const DetailRestaurantPage({
     Key? key,
     required this.restaurantModel,
+    this.isFromFavorites = false,
   }) : super(key: key);
 
   @override
@@ -46,7 +50,12 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
+        if (widget.isFromFavorites) {
+          BlocProvider.of<RestaurantBloc>(context)
+              .add(GetAllFavoritesRestaurant());
+        } else {
+          BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
+        }
         return true;
       },
       child: Scaffold(
@@ -55,6 +64,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
         body: SafeArea(
           child: BlocListener<RestaurantBloc, RestaurantState>(
             listener: (context, state) {
+              log(state.toString());
               if (state is RestaurantAddReviewsSuccessState) {
                 Navigator.pop(context);
                 BlocProvider.of<RestaurantBloc>(context).add(
@@ -70,6 +80,24 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                   title: 'Success',
                   subTitle:
                       'Thank you for your submitted review for the restaurant',
+                );
+              } else if (state is AddToFavoritesRestaurantSuccess ||
+                  state is RemoveFromFavoritesRestaurantSuccess) {
+                final stateRemoveFav =
+                    state is RemoveFromFavoritesRestaurantSuccess;
+                BlocProvider.of<RestaurantBloc>(context).add(
+                  GetDetailDataRestaurant(id: widget.restaurantModel.id),
+                );
+                DialogState.dialogState(
+                  context,
+                  icon: Icon(
+                    Icons.check_circle,
+                    size: 90,
+                    color: Colors.green.withOpacity(0.8),
+                  ),
+                  title: stateRemoveFav ? 'Removed' : 'Added',
+                  subTitle:
+                      '${widget.restaurantModel.name} ${stateRemoveFav ? 'remove from' : 'add to'} favorites',
                 );
               }
             },
@@ -139,19 +167,56 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                               left: 16,
                               child: GestureDetector(
                                 onTap: () {
-                                  BlocProvider.of<RestaurantBloc>(context)
-                                      .add(GetAllDataRestaurant());
+                                  if (widget.isFromFavorites) {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(GetAllFavoritesRestaurant());
+                                  } else {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(GetAllDataRestaurant());
+                                  }
                                   Navigator.pop(context);
                                 },
                                 child: Container(
                                   height: 40,
                                   width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.7),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),
                                   child: const Icon(Icons.arrow_back_ios_new,
                                       size: 20),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 16,
+                              right: 16,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (state.isFavorite) {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(RemoveFromFavoritesRestaurant(
+                                            id: data.id));
+                                  } else {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(AddToFavoritesRestaurant(
+                                            data: data));
+                                  }
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.bookmark,
+                                    size: 20,
+                                    color: state.isFavorite
+                                        ? ThemeCustom.yellowColor
+                                        : Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),

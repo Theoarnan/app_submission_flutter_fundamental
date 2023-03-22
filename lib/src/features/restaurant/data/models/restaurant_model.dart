@@ -24,4 +24,15 @@ class RestaurantModel {
         city: restaurant['city'],
         rating: restaurant['rating'].toString(),
       );
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'pictureId': pictureId,
+      'city': city,
+      'rating': rating,
+    };
+  }
 }
