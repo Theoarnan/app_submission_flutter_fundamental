@@ -28,3 +28,19 @@ class AddReviewRestaurant extends RestaurantEvent {
   @override
   List<Object> get props => [review];
 }
+
+class GetAllFavoritesRestaurant extends RestaurantEvent {}
+
+class AddToFavoritesRestaurant extends RestaurantEvent {
+  final RestaurantDetailModel data;
+  const AddToFavoritesRestaurant({required this.data});
+  @override
+  List<Object> get props => [data];
+}
+
+class RemoveFromFavoritesRestaurant extends RestaurantEvent {
+  final String id;
+  const RemoveFromFavoritesRestaurant({required this.id});
+  @override
+  List<Object> get props => [id];
+}

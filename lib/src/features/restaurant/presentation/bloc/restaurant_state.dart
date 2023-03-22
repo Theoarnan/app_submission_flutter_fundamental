@@ -18,9 +18,13 @@ class RestaurantLoadedState extends RestaurantState {
 
 class RestaurantDetailLoadedState extends RestaurantState {
   final RestaurantDetailModel data;
-  RestaurantDetailLoadedState({required this.data});
+  final bool isFavorite;
+  RestaurantDetailLoadedState({
+    required this.data,
+    required this.isFavorite,
+  });
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [data, isFavorite];
 }
 
 class RestaurantAddReviewsSuccessState extends RestaurantState {}
@@ -33,3 +37,7 @@ class RestaurantErrorState extends RestaurantState {
   @override
   List<Object> get props => [error];
 }
+
+class AddToFavoritesRestaurantSuccess extends RestaurantState {}
+
+class RemoveFromFavoritesRestaurantSuccess extends RestaurantState {}

@@ -1,6 +1,7 @@
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/customer_review_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/food_drink_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/menus_model.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 
 class RestaurantDetailModel {
   final String id;
@@ -43,5 +44,16 @@ class RestaurantDetailModel {
         customerReviews: (json['customerReviews'] as List)
             .map((i) => CustomerReviewModel.fromJson(i))
             .toList(),
+      );
+}
+
+extension RestaurantDetailModelX on RestaurantDetailModel {
+  RestaurantModel toDomain() => RestaurantModel(
+        id: id,
+        name: name,
+        description: description,
+        pictureId: pictureId,
+        city: city,
+        rating: rating,
       );
 }

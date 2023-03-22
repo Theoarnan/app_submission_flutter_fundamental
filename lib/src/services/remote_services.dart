@@ -6,7 +6,7 @@ import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:http/http.dart' as http;
 
-abstract class ApiServices {
+abstract class RemoteServices {
   Future<List<CustomerReviewModel>> addReviewsRestaurant(
     Map<String, dynamic>? reviews,
   );
@@ -15,7 +15,7 @@ abstract class ApiServices {
   Future<List<RestaurantModel>> searchRestaurant(String? search);
 }
 
-class ApiServicesImpl implements ApiServices {
+class RemoteServicesImpl implements RemoteServices {
   static const String _baseUrl = 'https://restaurant-api.dicoding.dev';
   // Endpoint
   static const String _getListRestaurant = '$_baseUrl/list';

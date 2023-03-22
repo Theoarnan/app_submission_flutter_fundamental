@@ -46,6 +46,65 @@ class _HomePageState extends State<HomePage> {
               color: ThemeCustom.primaryColor,
             ),
           ),
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem<int>(
+                  value: ConstantName.constFavorites,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Icon(Icons.bookmark),
+                      SizedBox(width: 4),
+                      Text('Favorites'),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<int>(
+                  value: ConstantName.constSetting,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Icon(Icons.settings),
+                      SizedBox(width: 4),
+                      Text('Settings'),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<int>(
+                  value: ConstantName.constLogout,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Icon(Icons.power_settings_new_rounded),
+                      SizedBox(width: 4),
+                      Text('Logout'),
+                    ],
+                  ),
+                ),
+              ];
+            },
+            onSelected: (value) {
+              switch (value) {
+                case ConstantName.constFavorites:
+                  BlocProvider.of<RestaurantBloc>(context)
+                      .add(GetAllFavoritesRestaurant());
+                  Navigator.of(context)
+                      .pushNamed(RouterAppPath.favoritesRestaurantPage);
+                  break;
+                case ConstantName.constSetting:
+                  Navigator.of(context).pushNamed(RouterAppPath.settingsPage);
+                  break;
+                case ConstantName.constLogout:
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    RouterAppPath.splashPage,
+                    (route) => false,
+                  );
+                  break;
+                default:
+              }
+            },
+          ),
         ],
       ),
       body: SafeArea(

@@ -17,6 +17,8 @@ dependencies:
   connectivity_plus: ^3.0.3
   flutter_bloc: ^8.1.2
   equatable: ^2.0.5
+  sqflite: ^2.2.6
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:
