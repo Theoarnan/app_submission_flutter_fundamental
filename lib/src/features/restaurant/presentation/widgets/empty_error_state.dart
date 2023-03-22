@@ -1,4 +1,4 @@
-import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:flutter/material.dart';
 
 class EmptyErrorState extends StatelessWidget {
@@ -27,6 +27,7 @@ class EmptyErrorState extends StatelessWidget {
         children: [
           Image.asset(
             imgAsset,
+            height: MediaQuery.of(context).size.height * 0.3,
           ),
           const SizedBox(
             height: 6,
@@ -42,12 +43,15 @@ class EmptyErrorState extends StatelessWidget {
           const SizedBox(
             height: 6,
           ),
-          Text(
-            subTitle,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.grey,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              subTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.grey,
+              ),
             ),
           ),
           const SizedBox(
@@ -56,7 +60,7 @@ class EmptyErrorState extends StatelessWidget {
           withoutButton
               ? const SizedBox()
               : ElevatedButton(
-                  onPressed: () => onPressed,
+                  onPressed: () => onPressed!(),
                   child: Text(
                     titleButton!,
                     style: const TextStyle(

@@ -1,9 +1,11 @@
-import 'package:app_submission_flutter_fundamental/src/constants/constants_name.dart';
-import 'package:app_submission_flutter_fundamental/src/constants/theme_custom.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/models/restaurant_model.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
+import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
+import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
-import 'package:app_submission_flutter_fundamental/src/features/router/router_app_path.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListTileRestaurant extends StatelessWidget {
   final RestaurantModel dataRestaurant;
@@ -16,6 +18,9 @@ class ListTileRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
+        BlocProvider.of<RestaurantBloc>(context).add(
+          GetDetailDataRestaurant(id: dataRestaurant.id),
+        );
         Navigator.of(context).pushNamed(
           RouterAppPath.detailRestaurantPage,
           arguments: dataRestaurant,
@@ -31,7 +36,7 @@ class ListTileRestaurant extends StatelessWidget {
               tag: dataRestaurant.pictureId,
               child: FadeInImage(
                 image: NetworkImage(
-                  dataRestaurant.pictureId,
+                  '${ConstantName.networkAssetImg}${dataRestaurant.pictureId}',
                 ),
                 placeholder: const AssetImage(
                     '${ConstantName.dirAssetImg}placeholder_image.png'),
@@ -51,7 +56,8 @@ class ListTileRestaurant extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              Container(
+                width: MediaQuery.of(context).size.width * 0.58,
                 padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   dataRestaurant.name,
