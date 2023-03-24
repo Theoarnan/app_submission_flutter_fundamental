@@ -21,7 +21,6 @@ class HomeHeaderSection extends StatelessWidget {
               text: 'Hi, ',
               style: TextStyle(
                 fontSize: 24,
-                color: ThemeCustom.secondaryColor,
                 fontWeight: FontWeight.bold,
               ),
               children: [
@@ -43,7 +42,6 @@ class HomeHeaderSection extends StatelessWidget {
             'Find your favorite food in popular restaurant',
             style: TextStyle(
               fontSize: 16,
-              color: ThemeCustom.secondaryColor,
             ),
           ),
         ],

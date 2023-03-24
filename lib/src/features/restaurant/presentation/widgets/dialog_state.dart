@@ -13,8 +13,11 @@ class DialogState {
       context: context,
       builder: (context) {
         return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              20.0,
+            ),
+          ),
           child: Container(
             constraints: const BoxConstraints(maxHeight: 250),
             child: Padding(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
@@ -60,11 +58,9 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
         body: SafeArea(
           child: BlocListener<RestaurantBloc, RestaurantState>(
             listener: (context, state) {
-              log(state.toString());
               if (state is RestaurantAddReviewsSuccessState) {
                 Navigator.pop(context);
                 BlocProvider.of<RestaurantBloc>(context).add(
@@ -183,8 +179,11 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(Icons.arrow_back_ios_new,
-                                      size: 20),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios_new,
+                                    color: ThemeCustom.secondaryColor,
+                                    size: 20,
+                                  ),
                                 ),
                               ),
                             ),
@@ -309,7 +308,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: ThemeCustom.secondaryColor,
                                 ),
                               ),
                               const SizedBox(
@@ -344,7 +342,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: ThemeCustom.secondaryColor,
                                     ),
                                   ),
                                   GestureDetector(
@@ -506,7 +503,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                     'Add Review',
                     style: TextStyle(
                       fontSize: 24,
-                      color: ThemeCustom.secondaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -591,7 +587,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -600,7 +596,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
               style: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: ThemeCustom.secondaryColor,
               ),
             ),
           ),
@@ -619,7 +614,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ).copyWith(top: 16),
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             children: [
               Align(
@@ -630,7 +625,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                   style: TextStyle(
                     fontSize: fontSize,
                     fontWeight: FontWeight.bold,
-                    color: ThemeCustom.secondaryColor,
                   ),
                 ),
               ),
@@ -639,9 +633,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
               ),
               TabBar(
                 controller: controller,
-                unselectedLabelColor:
-                    ThemeCustom.secondaryColor.withOpacity(0.8),
-                labelColor: ThemeCustom.primaryColor,
+                indicatorColor: ThemeCustom.primaryColor,
                 tabs: [
                   _tabCustom(
                     icon: Icons.restaurant_menu_sharp,

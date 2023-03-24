@@ -6,6 +6,7 @@ import 'package:app_submission_flutter_fundamental/src/features/restaurant/prese
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/home_header_section.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_restaurant.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
+import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/bloc/setting_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,12 +27,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         title: Image.asset(
-          '${ConstantName.dirAssetImg}logo.png',
+          '${ConstantName.dirAssetImg}logo_dark.png',
           width: 120,
         ),
         actions: [
@@ -93,6 +92,7 @@ class _HomePageState extends State<HomePage> {
                       .pushNamed(RouterAppPath.favoritesRestaurantPage);
                   break;
                 case ConstantName.constSetting:
+                  BlocProvider.of<SettingBlocCubit>(context).getTheme();
                   Navigator.of(context).pushNamed(RouterAppPath.settingsPage);
                   break;
                 case ConstantName.constLogout:

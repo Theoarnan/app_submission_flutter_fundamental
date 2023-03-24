@@ -18,9 +18,7 @@ class FavoritesPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
             onPressed: () {
@@ -30,15 +28,13 @@ class FavoritesPage extends StatelessWidget {
             },
             icon: const Icon(
               Icons.arrow_back_ios_new,
-              color: ThemeCustom.secondaryColor,
             ),
           ),
           title: const Text(
             'Favorites',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: ThemeCustom.secondaryColor,
             ),
           ),
         ),
@@ -98,7 +94,7 @@ class FavoritesPage extends StatelessWidget {
                                     vertical: 2,
                                     horizontal: 16,
                                   ),
-                                  color: Colors.red,
+                                  color: ThemeCustom.redColor,
                                   child: const Text(
                                     'Remove',
                                     style: TextStyle(

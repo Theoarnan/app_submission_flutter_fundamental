@@ -5,7 +5,9 @@ import 'package:app_submission_flutter_fundamental/src/features/restaurant/prese
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/favorites_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/home_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/search_page.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/settings_page.dart';
+import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/bloc/setting_bloc.dart';
+import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/bloc/setting_state.dart';
+import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/pages/settings_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/splash_page.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
 import 'package:flutter/material.dart';
@@ -22,33 +24,47 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => RestaurantBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SettingBlocCubit()..getTheme(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Moo Makan',
-        theme: ThemeCustom.themeSetting(),
-        navigatorKey: navigationKey,
-        initialRoute: RouterAppPath.homePage,
-        routes: {
-          RouterAppPath.splashPage: (context) => const SplashPage(),
-          RouterAppPath.homePage: (context) => const HomePage(),
-          RouterAppPath.searchPage: (context) => const SearchPage(),
-          RouterAppPath.detailRestaurantPage: (context) => DetailRestaurantPage(
-                restaurantModel: (ModalRoute.of(context)!.settings.arguments
-                        as DetailArguments)
-                    .dataRestaurant,
-                isFromFavorites: (ModalRoute.of(context)!.settings.arguments
-                        as DetailArguments)
-                    .isFromFavorite,
-              ),
-          RouterAppPath.favoritesRestaurantPage: (context) =>
-              const FavoritesPage(),
-          RouterAppPath.settingsPage: (context) => const SettingsPage(),
+      child: BlocBuilder<SettingBlocCubit, SettingState>(
+        builder: (context, state) {
+          final stateThemeSuccess = (state is SettingThemeSuccess);
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Moo Makan',
+            theme: stateThemeSuccess
+                ? state.isDarkTheme
+                    ? ThemeCustom.darkThemeData(context)
+                    : ThemeCustom.lightThemeData(context)
+                : ThemeCustom.lightThemeData(context),
+            navigatorKey: navigationKey,
+            initialRoute: RouterAppPath.splashPage,
+            routes: {
+              RouterAppPath.splashPage: (context) => const SplashPage(),
+              RouterAppPath.homePage: (context) => const HomePage(),
+              RouterAppPath.searchPage: (context) => const SearchPage(),
+              RouterAppPath.detailRestaurantPage: (context) =>
+                  DetailRestaurantPage(
+                    restaurantModel: (ModalRoute.of(context)!.settings.arguments
+                            as DetailArguments)
+                        .dataRestaurant,
+                    isFromFavorites: (ModalRoute.of(context)!.settings.arguments
+                            as DetailArguments)
+                        .isFromFavorite,
+                  ),
+              RouterAppPath.favoritesRestaurantPage: (context) =>
+                  const FavoritesPage(),
+              RouterAppPath.settingsPage: (context) => const SettingsPage(),
+            },
+          );
         },
       ),
     );
