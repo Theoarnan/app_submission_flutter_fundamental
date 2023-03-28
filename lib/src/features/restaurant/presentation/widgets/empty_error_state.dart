@@ -1,4 +1,3 @@
-import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:flutter/material.dart';
 
 class EmptyErrorState extends StatelessWidget {
@@ -36,7 +35,6 @@ class EmptyErrorState extends StatelessWidget {
             title,
             style: const TextStyle(
               fontSize: 30,
-              color: ThemeCustom.secondaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -64,7 +62,6 @@ class EmptyErrorState extends StatelessWidget {
                   child: Text(
                     titleButton!,
                     style: const TextStyle(
-                      color: Colors.white,
                       fontSize: 16,
                     ),
                   ),

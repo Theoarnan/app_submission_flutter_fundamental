@@ -1,11 +1,14 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/utils/notification_helper.dart';
+import 'package:app_submission_flutter_fundamental/src/common/utils/shared_preference_app.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/home_header_section.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/list_tile_restaurant.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
+import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/bloc/setting_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,28 +20,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
   @override
   void initState() {
-    super.initState();
     BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
+    _notificationHelper.configureSelectNotificationSubject(
+      RouterAppPath.detailRestaurantPage,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  String getAsset() {
+    bool isDark = SharePreferencesApp.getThemeMode();
+    if (isDark) return '${ConstantName.dirAssetImg}logo_dark.png';
+    return '${ConstantName.dirAssetImg}logo.png';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         title: Image.asset(
-          '${ConstantName.dirAssetImg}logo.png',
+          getAsset(),
           width: 120,
         ),
         actions: [
           IconButton(
             onPressed: () {
-              BlocProvider.of<RestaurantBloc>(context)
-                  .add(GetAllDataRestaurant());
+              BlocProvider.of<RestaurantBloc>(context).add(
+                GetAllDataRestaurant(),
+              );
               Navigator.of(context).pushNamed(RouterAppPath.searchPage);
             },
             icon: const Icon(
@@ -85,24 +103,7 @@ class _HomePageState extends State<HomePage> {
               ];
             },
             onSelected: (value) {
-              switch (value) {
-                case ConstantName.constFavorites:
-                  BlocProvider.of<RestaurantBloc>(context)
-                      .add(GetAllFavoritesRestaurant());
-                  Navigator.of(context)
-                      .pushNamed(RouterAppPath.favoritesRestaurantPage);
-                  break;
-                case ConstantName.constSetting:
-                  Navigator.of(context).pushNamed(RouterAppPath.settingsPage);
-                  break;
-                case ConstantName.constLogout:
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    RouterAppPath.splashPage,
-                    (route) => false,
-                  );
-                  break;
-                default:
-              }
+              onSelectedProccess(value, context);
             },
           ),
         ],
@@ -128,13 +129,18 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
 
-                  if (state is NoInternetState) {
+                  if (state is NoInternetState ||
+                      state is RestaurantErrorState) {
+                    final noInternetState = state is NoInternetState;
                     return Expanded(
                       child: EmptyErrorState(
-                        imgAsset: '${ConstantName.dirAssetImg}no_internet.png',
+                        imgAsset: noInternetState
+                            ? '${ConstantName.dirAssetImg}no_internet.png'
+                            : '${ConstantName.dirAssetImg}illustration_error.png',
                         title: 'Sorry,',
-                        subTitle:
-                            "We we can't connect internet, please check your connection",
+                        subTitle: noInternetState
+                            ? "We we can't connect internet, please check your connection"
+                            : 'We failed to load restaurant data',
                         withoutButton: false,
                         onPressed: () async {
                           BlocProvider.of<RestaurantBloc>(context)
@@ -168,22 +174,6 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
 
-                  if (state is RestaurantErrorState) {
-                    return Expanded(
-                      child: EmptyErrorState(
-                        imgAsset:
-                            '${ConstantName.dirAssetImg}illustration_error.png',
-                        title: 'Sorry,',
-                        subTitle: 'We failed to load restaurant data',
-                        withoutButton: false,
-                        onPressed: () {
-                          BlocProvider.of<RestaurantBloc>(context)
-                              .add(GetAllDataRestaurant());
-                        },
-                        titleButton: 'Try Again',
-                      ),
-                    );
-                  }
                   return const SizedBox();
                 },
               ),
@@ -192,5 +182,27 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void onSelectedProccess(int value, BuildContext context) {
+    switch (value) {
+      case ConstantName.constFavorites:
+        BlocProvider.of<RestaurantBloc>(context)
+            .add(GetAllFavoritesRestaurant());
+        Navigator.of(context).pushNamed(RouterAppPath.favoritesRestaurantPage);
+        break;
+      case ConstantName.constSetting:
+        BlocProvider.of<SettingBlocCubit>(context).getSetting();
+        Navigator.of(context).pushReplacementNamed(RouterAppPath.settingsPage);
+        break;
+      case ConstantName.constLogout:
+        BlocProvider.of<SettingBlocCubit>(context).logoutApp();
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          RouterAppPath.splashPage,
+          (route) => false,
+        );
+        break;
+      default:
+    }
   }
 }

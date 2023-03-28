@@ -22,9 +22,8 @@ class IconTextCustom extends StatelessWidget {
             data,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
-              color: Colors.grey[700],
             ),
           ),
         )

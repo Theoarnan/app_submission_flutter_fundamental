@@ -104,6 +104,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     Emitter<RestaurantState> emit,
   ) async {
     emit(RestaurantLoadingState());
+    Future.delayed(const Duration(seconds: 2));
     try {
       await localServices.insertFavoriteRestaurant(event.data.toDomain());
       emit(AddToFavoritesRestaurantSuccess());

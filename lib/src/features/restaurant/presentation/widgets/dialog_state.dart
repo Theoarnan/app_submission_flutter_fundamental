@@ -9,47 +9,65 @@ class DialogState {
     required String title,
     required String subTitle,
   }) {
-    return showDialog(
+    return showGeneralDialog(
       context: context,
-      builder: (context) {
-        return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          child: Container(
-            constraints: const BoxConstraints(maxHeight: 250),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  icon,
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    subTitle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: ThemeCustom.secondaryColor.withOpacity(0.6)),
-                  )
-                ],
-              ),
-            ),
-          ),
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierDismissible: true,
+      pageBuilder: (ctx, a1, a2) {
+        return const SizedBox();
+      },
+      transitionBuilder: (ctx, a1, a2, child) {
+        var curve = Curves.easeInOut.transform(a1.value);
+        return Transform.scale(
+          scale: curve,
+          child: _dialogState(icon, title, subTitle),
         );
       },
+      transitionDuration: const Duration(milliseconds: 300),
+    );
+  }
+
+  static Dialog _dialogState(Icon icon, String title, String subTitle) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          20.0,
+        ),
+      ),
+      child: Container(
+        constraints: const BoxConstraints(maxHeight: 250),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              const SizedBox(
+                height: 6,
+              ),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                subTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: ThemeCustom.secondaryColor.withOpacity(0.6),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

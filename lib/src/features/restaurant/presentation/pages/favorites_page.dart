@@ -1,5 +1,6 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/navigation.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
@@ -18,27 +19,22 @@ class FavoritesPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
             onPressed: () {
               BlocProvider.of<RestaurantBloc>(context)
                   .add(GetAllDataRestaurant());
-              Navigator.maybePop(context);
+              Navigation.back();
             },
             icon: const Icon(
               Icons.arrow_back_ios_new,
-              color: ThemeCustom.secondaryColor,
             ),
           ),
           title: const Text(
             'Favorites',
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: ThemeCustom.secondaryColor,
+              fontSize: 20,
             ),
           ),
         ),
@@ -93,23 +89,28 @@ class FavoritesPage extends StatelessWidget {
                             return Dismissible(
                               key: Key(dataRestaurant.id.toString()),
                               background: Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 2,
-                                    horizontal: 16,
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 2,
+                                  horizontal: 16,
+                                ),
+                                color: ThemeCustom.redColor,
+                                child: const Text(
+                                  'Remove',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  color: Colors.red,
-                                  child: const Text(
-                                    'Remove',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                                ),
+                              ),
+                              direction: DismissDirection.startToEnd,
                               onDismissed: (direction) {
                                 BlocProvider.of<RestaurantBloc>(context).add(
-                                    RemoveFromFavoritesRestaurant(
-                                        id: dataRestaurant.id));
+                                  RemoveFromFavoritesRestaurant(
+                                    id: dataRestaurant.id,
+                                  ),
+                                );
                               },
                               child: ListTileRestaurant(
                                 dataRestaurant: dataRestaurant,

@@ -52,7 +52,6 @@ class _SplashPageState extends State<SplashPage> {
                 'Loading...',
                 style: TextStyle(
                   fontSize: 16,
-                  color: ThemeCustom.secondaryColor,
                 ),
               )
             ],
