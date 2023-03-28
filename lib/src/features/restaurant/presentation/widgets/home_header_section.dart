@@ -14,7 +14,7 @@ class HomeHeaderSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           SizedBox(
-            height: 28,
+            height: 24,
           ),
           Text.rich(
             TextSpan(
@@ -25,7 +25,7 @@ class HomeHeaderSection extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: 'Arnan A Theopilus',
+                  text: 'Buddy',
                   style: TextStyle(
                     fontSize: 24,
                     color: ThemeCustom.primaryColor,

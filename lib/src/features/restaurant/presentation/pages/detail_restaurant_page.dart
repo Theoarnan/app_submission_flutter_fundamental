@@ -1,5 +1,6 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/navigation.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/dialog_state.dart';
@@ -32,6 +33,9 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
 
   @override
   void initState() {
+    BlocProvider.of<RestaurantBloc>(context).add(
+      GetDetailDataRestaurant(id: widget.restaurantModel.id),
+    );
     controller = TabController(vsync: this, length: 2);
     super.initState();
   }
@@ -170,7 +174,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                     BlocProvider.of<RestaurantBloc>(context)
                                         .add(GetAllDataRestaurant());
                                   }
-                                  Navigator.pop(context);
+                                  Navigation.back();
                                 },
                                 child: Container(
                                   height: 40,
@@ -350,11 +354,13 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
-                                            title: const Text(
-                                              'All Reviews',
-                                              style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.bold,
+                                            title: const Material(
+                                              child: Text(
+                                                'All Reviews',
+                                                style: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                             content: SizedBox(
@@ -398,7 +404,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                 ],
                               ),
                               const SizedBox(
-                                height: 6,
+                                height: 8,
                               ),
                               SizedBox(
                                 child: ListView.separated(

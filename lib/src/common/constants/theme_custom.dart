@@ -12,21 +12,18 @@ class ThemeCustom {
   static const Color secondaryDarkColor = Color(0xFF2C394B);
   static const Color thirdDarkColor = Color(0xFF4E6E81);
 
-  static ThemeData themeSetting() {
-    return ThemeData(
-      primarySwatch: Colors.orange,
-      fontFamily: GoogleFonts.rubik().fontFamily,
-    );
-  }
-
+  /// Theme Light
   static ThemeData lightThemeData(BuildContext context) {
     return ThemeData.light().copyWith(
       primaryColor: primaryColor,
       scaffoldBackgroundColor: Colors.white,
       appBarTheme: appBarTheme.copyWith(
-          iconTheme: const IconThemeData(color: secondaryColor),
-          backgroundColor: Colors.white,
-          titleTextStyle: const TextStyle(color: secondaryColor)),
+        iconTheme: const IconThemeData(color: secondaryColor),
+        backgroundColor: Colors.white,
+        titleTextStyle: appBarTheme.titleTextStyle?.copyWith(
+          color: secondaryColor,
+        ),
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       iconTheme: const IconThemeData(color: secondaryColor),
       textTheme: GoogleFonts.rubikTextTheme(Theme.of(context).textTheme)
@@ -37,16 +34,7 @@ class ThemeCustom {
         labelColor: primaryColor,
       ),
       listTileTheme: const ListTileThemeData(textColor: secondaryColor),
-      switchTheme:
-          SwitchThemeData(thumbColor: MaterialStateProperty.resolveWith(
-        (states) {
-          return primaryColor;
-        },
-      ), trackColor: MaterialStateProperty.resolveWith(
-        (states) {
-          return primaryColor.withOpacity(0.5);
-        },
-      )),
+      switchTheme: switchThemeData,
       colorScheme: const ColorScheme.light(
         primary: primaryColor,
         secondary: secondaryColor,
@@ -55,12 +43,19 @@ class ThemeCustom {
     );
   }
 
+  /// Theme Dark
   static ThemeData darkThemeData(BuildContext context) {
     return ThemeData.dark().copyWith(
       primaryColor: primaryColor,
       scaffoldBackgroundColor: darkColor,
       popupMenuTheme: const PopupMenuThemeData(),
-      appBarTheme: appBarTheme.copyWith(backgroundColor: darkColor),
+      appBarTheme: appBarTheme.copyWith(
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: darkColor,
+        titleTextStyle: appBarTheme.titleTextStyle?.copyWith(
+          color: Colors.white,
+        ),
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       iconTheme: const IconThemeData(color: Colors.white),
       textTheme: GoogleFonts.rubikTextTheme(Theme.of(context).textTheme)
@@ -72,16 +67,7 @@ class ThemeCustom {
         labelColor: primaryColor,
       ),
       listTileTheme: const ListTileThemeData(textColor: Colors.white),
-      switchTheme:
-          SwitchThemeData(thumbColor: MaterialStateProperty.resolveWith(
-        (states) {
-          return primaryColor;
-        },
-      ), trackColor: MaterialStateProperty.resolveWith(
-        (states) {
-          return primaryColor.withOpacity(0.5);
-        },
-      )),
+      switchTheme: switchThemeData,
       colorScheme: const ColorScheme.dark().copyWith(
         primary: primaryColor,
         secondary: secondaryColor,
@@ -90,6 +76,39 @@ class ThemeCustom {
     );
   }
 
-  static AppBarTheme appBarTheme =
-      const AppBarTheme(centerTitle: false, elevation: 0);
+  static AppBarTheme appBarTheme = const AppBarTheme(
+    centerTitle: false,
+    elevation: 0,
+    titleTextStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+    ),
+  );
+
+  static SwitchThemeData switchThemeData = SwitchThemeData(
+    thumbColor: MaterialStateProperty.resolveWith(
+      (states) {
+        if (states.contains(MaterialState.selected)) {
+          return primaryColor;
+        } else if (states.contains(MaterialState.disabled)) {
+          return secondaryColor;
+        }
+        return null;
+      },
+    ),
+    trackColor: MaterialStateProperty.resolveWith(
+      (states) {
+        if (states.contains(MaterialState.selected)) {
+          return primaryColor.withOpacity(0.5);
+        } else if (states.contains(MaterialState.disabled)) {
+          return thirdColor.withOpacity(0.5);
+        }
+        return null;
+      },
+    ),
+    overlayColor: MaterialStateProperty.resolveWith(
+      (states) {
+        return secondaryColor.withOpacity(0.5);
+      },
+    ),
+  );
 }

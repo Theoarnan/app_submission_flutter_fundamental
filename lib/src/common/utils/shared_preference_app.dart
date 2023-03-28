@@ -1,53 +1,44 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class SharePreferencesApp {
-  saveFirstLaunch(bool isFirst);
-  saveTheme(bool isDark);
-  getheme();
-  saveAlarm(bool value);
-  Future<bool> getAlarmValue();
+class SharePreferencesApp {
+  static SharePreferencesApp? _sharePreferencesAppImpl;
+  static SharedPreferences? _preferences;
+
+  static Future<SharePreferencesApp> getInstance() async {
+    if (_sharePreferencesAppImpl == null) {
+      var secureStorage = SharePreferencesApp._();
+      await secureStorage._init();
+      _sharePreferencesAppImpl = secureStorage;
+    }
+    return _sharePreferencesAppImpl!;
+  }
+
+  SharePreferencesApp._();
+
+  Future _init() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  static bool getAlarmValue() {
+    bool data = _preferences?.getBool('alarm_notification') ?? false;
+    return data;
+  }
+
+  static void saveAlarm(bool value) {
+    _preferences?.setBool('alarm_notification', value);
+  }
+
+  static void saveTheme(bool isDark) {
+    _preferences?.setBool('theme_dark', isDark);
+  }
+
+  static bool getThemeMode() {
+    bool data = _preferences?.getBool('theme_dark') ?? false;
+    return data;
+  }
+
+  static void removeDataPreference() {
+    _preferences?.remove('alarm_notification');
+    _preferences?.remove('theme_dark');
+  }
 }
-
-class SharePreferencesAppImpl implements SharePreferencesApp {
-  @override
-  Future<bool> getAlarmValue() {
-    throw UnimplementedError();
-  }
-
-  @override
-  saveAlarm(bool value) {
-    throw UnimplementedError();
-  }
-
-  @override
-  saveFirstLaunch(bool isFirst) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isFirst', isFirst);
-  }
-
-  @override
-  saveTheme(bool isDark) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('themeDark', isDark);
-  }
-
-  @override
-  getheme() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('themeDark') ?? false;
-  }
-}
-
-// class RestaurantSharePreferencesImpl extends RestaurantSharePreferences {
-//   @override
-//   Future<bool> getAlarmValue() async {
-//     SharedPreferences _prefs = await SharedPreferences.getInstance();
-//     return _prefs.getBool('alarm');
-//   }
-
-//   @override
-//   saveAlarm(bool value) async {
-//     SharedPreferences _prefs = await SharedPreferences.getInstance();
-//     _prefs.setBool('alarm', value);
-//   }
-// }

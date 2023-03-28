@@ -7,11 +7,15 @@ class SettingInitialState extends SettingState {}
 
 class SettingLoadingState extends SettingState {}
 
-class SettingThemeSuccess extends SettingState {
+class SettingSettingSuccess extends SettingState {
   final bool isDarkTheme;
-  SettingThemeSuccess({this.isDarkTheme = false});
+  final bool isActivedNotif;
+  SettingSettingSuccess({
+    this.isDarkTheme = false,
+    this.isActivedNotif = false,
+  });
   @override
-  List<Object> get props => [isDarkTheme];
+  List<Object> get props => [isDarkTheme, isActivedNotif];
 }
 
 class SettingErrorState extends SettingState {

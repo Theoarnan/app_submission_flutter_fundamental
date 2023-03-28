@@ -29,13 +29,14 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                '${ConstantName.dirAssetImg}logo_app_dark.png',
+                '${ConstantName.dirAssetImg}logo_app.png',
                 fit: BoxFit.fill,
               ),
               const SizedBox(

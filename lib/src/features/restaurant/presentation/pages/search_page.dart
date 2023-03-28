@@ -1,5 +1,6 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/navigation.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
@@ -44,11 +45,10 @@ class _SearchPageState extends State<SearchPage> {
                           onPressed: () {
                             BlocProvider.of<RestaurantBloc>(context)
                                 .add(GetAllDataRestaurant());
-                            Navigator.maybePop(context);
+                            Navigation.back();
                           },
                           icon: const Icon(
                             Icons.arrow_back_ios_new,
-                            color: ThemeCustom.secondaryColor,
                           ),
                         ),
                         const SizedBox(
@@ -59,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
                             controller: searchController,
                             autofocus: true,
                             decoration: InputDecoration(
-                              hintText: 'Search restaurant or city...',
+                              hintText: 'Search restaurant...',
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               border: OutlineInputBorder(
@@ -129,21 +129,19 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           );
                         }
-                        return SizedBox(
-                          child: ListView.separated(
-                            itemCount: data.length,
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
-                            itemBuilder: (context, index) {
-                              final dataRestaurant = data[index];
-                              return ListTileRestaurant(
-                                dataRestaurant: dataRestaurant,
-                              );
-                            },
-                          ),
+                        return ListView.separated(
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                          itemBuilder: (context, index) {
+                            final dataRestaurant = data[index];
+                            return ListTileRestaurant(
+                              dataRestaurant: dataRestaurant,
+                            );
+                          },
                         );
                       }
 
