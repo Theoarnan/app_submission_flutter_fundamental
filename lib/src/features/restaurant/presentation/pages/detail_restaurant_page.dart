@@ -1,6 +1,5 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
-import 'package:app_submission_flutter_fundamental/src/common/router/navigation.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/dialog_state.dart';
@@ -42,10 +41,10 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
 
   @override
   void dispose() {
+    super.dispose();
     controller.dispose();
     nameController.dispose();
     reviewontroller.dispose();
-    super.dispose();
   }
 
   @override
@@ -58,6 +57,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
         } else {
           BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
         }
+        Navigator.of(context).pop();
         return true;
       },
       child: Scaffold(
@@ -174,7 +174,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                     BlocProvider.of<RestaurantBloc>(context)
                                         .add(GetAllDataRestaurant());
                                   }
-                                  Navigation.back();
+                                  Navigator.of(context).pop();
                                 },
                                 child: Container(
                                   height: 40,

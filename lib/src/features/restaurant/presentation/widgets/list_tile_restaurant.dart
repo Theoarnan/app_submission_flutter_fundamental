@@ -1,7 +1,6 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/argument_detail.dart';
-import 'package:app_submission_flutter_fundamental/src/common/router/navigation.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
@@ -20,9 +19,9 @@ class ListTileRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigation.intentWithData(
+        Navigator.of(context).pushNamed(
           RouterAppPath.detailRestaurantPage,
-          DetailArguments(
+          arguments: DetailArguments(
             dataRestaurant: dataRestaurant,
             isFromFavorite: isFromFavorite,
           ),

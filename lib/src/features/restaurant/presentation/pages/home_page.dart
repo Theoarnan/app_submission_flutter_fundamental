@@ -24,16 +24,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
     _notificationHelper.configureSelectNotificationSubject(
+      context,
       RouterAppPath.detailRestaurantPage,
     );
-    super.initState();
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     super.dispose();
+    await selectNotificationSubject.drain();
+    selectNotificationSubject.close();
   }
 
   String getAsset() {
@@ -193,7 +196,9 @@ class _HomePageState extends State<HomePage> {
         break;
       case ConstantName.constSetting:
         BlocProvider.of<SettingBlocCubit>(context).getSetting();
-        Navigator.of(context).pushReplacementNamed(RouterAppPath.settingsPage);
+        Navigator.of(context).pushReplacementNamed(
+          RouterAppPath.settingsPage,
+        );
         break;
       case ConstantName.constLogout:
         BlocProvider.of<SettingBlocCubit>(context).logoutApp();

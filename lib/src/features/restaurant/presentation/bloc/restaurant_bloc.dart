@@ -10,9 +10,14 @@ part 'restaurant_event.dart';
 part 'restaurant_state.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
-  final RemoteServicesImpl remoteServicesImpl = RemoteServicesImpl();
-  final LocalServices localServices = LocalServices();
-  RestaurantBloc() : super(RestaurantInitialState()) {
+  final RemoteServicesImpl remoteServicesImpl;
+  final Utils utils;
+  final LocalServices localServices;
+  RestaurantBloc({
+    required this.utils,
+    required this.remoteServicesImpl,
+    required this.localServices,
+  }) : super(RestaurantInitialState()) {
     on<GetAllDataRestaurant>((event, emit) => _getAllRestaurant(event, emit));
     on<GetDetailDataRestaurant>(
         (event, emit) => _getDetailRestaurant(event, emit));
@@ -32,7 +37,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     Emitter<RestaurantState> emit,
   ) async {
     emit(RestaurantLoadingState());
-    if (await Utils.isConnected() == false) return emit(NoInternetState());
+    if (await utils.isConnected() == false) return emit(NoInternetState());
     try {
       final data = await remoteServicesImpl.getRestaurantData();
       emit(RestaurantLoadedState(data: data));
@@ -46,7 +51,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     Emitter<RestaurantState> emit,
   ) async {
     emit(RestaurantLoadingState());
-    if (await Utils.isConnected() == false) return emit(NoInternetState());
+    if (await utils.isConnected() == false) return emit(NoInternetState());
     try {
       final data = await remoteServicesImpl.getRestaurantDetail(event.id);
       final isFavorite = await localServices.checkIsFavoriteRestaurant(
@@ -63,7 +68,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     Emitter<RestaurantState> emit,
   ) async {
     emit(RestaurantLoadingState());
-    if (await Utils.isConnected() == false) return emit(NoInternetState());
+    if (await utils.isConnected() == false) return emit(NoInternetState());
     try {
       final data = await remoteServicesImpl.searchRestaurant(event.search);
       emit(RestaurantLoadedState(data: data));
@@ -77,7 +82,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     Emitter<RestaurantState> emit,
   ) async {
     emit(RestaurantLoadingState());
-    if (await Utils.isConnected() == false) return emit(NoInternetState());
+    if (await utils.isConnected() == false) return emit(NoInternetState());
     try {
       await remoteServicesImpl.addReviewsRestaurant(event.review);
       emit(RestaurantAddReviewsSuccessState());

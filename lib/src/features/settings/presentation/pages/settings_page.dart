@@ -19,6 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        Navigator.of(context).pushNamed(RouterAppPath.homePage);
         return true;
       },
       child: Scaffold(
@@ -26,9 +27,8 @@ class _SettingsPageState extends State<SettingsPage> {
           elevation: 0,
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed(
-                RouterAppPath.homePage,
-              );
+              Navigator.of(context)
+                  .pushReplacementNamed(RouterAppPath.homePage);
             },
             icon: const Icon(
               Icons.arrow_back_ios_new,
