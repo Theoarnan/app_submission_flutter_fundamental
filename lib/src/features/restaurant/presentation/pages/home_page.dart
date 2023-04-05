@@ -21,22 +21,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final NotificationHelper _notificationHelper = NotificationHelper();
+  String imageLogo = '${ConstantName.dirAssetImg}logo.png';
 
   @override
   void initState() {
+    super.initState();
     BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
     _notificationHelper.configureSelectNotificationSubject(
       RouterAppPath.detailRestaurantPage,
     );
-    super.initState();
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     super.dispose();
+    await selectNotificationSubject.drain();
+    selectNotificationSubject.close();
   }
 
-  String getAsset() {
+  Future<String> getAsset() async {
     bool isDark = SharePreferencesApp.getThemeMode();
     if (isDark) return '${ConstantName.dirAssetImg}logo_dark.png';
     return '${ConstantName.dirAssetImg}logo.png';
@@ -48,7 +51,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 0,
         title: Image.asset(
-          getAsset(),
+          imageLogo,
           width: 120,
         ),
         actions: [
@@ -184,7 +187,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onSelectedProccess(int value, BuildContext context) {
+  void onSelectedProccess(int value, BuildContext context) async {
     switch (value) {
       case ConstantName.constFavorites:
         BlocProvider.of<RestaurantBloc>(context)
@@ -193,7 +196,13 @@ class _HomePageState extends State<HomePage> {
         break;
       case ConstantName.constSetting:
         BlocProvider.of<SettingBlocCubit>(context).getSetting();
-        Navigator.of(context).pushReplacementNamed(RouterAppPath.settingsPage);
+        await Navigator.of(context).pushNamed(
+          RouterAppPath.settingsPage,
+        );
+        final data = await getAsset();
+        setState(() {
+          imageLogo = data.toString();
+        });
         break;
       case ConstantName.constLogout:
         BlocProvider.of<SettingBlocCubit>(context).logoutApp();

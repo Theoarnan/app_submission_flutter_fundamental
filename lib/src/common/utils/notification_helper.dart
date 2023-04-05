@@ -76,9 +76,9 @@ class NotificationHelper {
     selectNotificationSubject.stream.listen(
       (String payload) async {
         var restaurant = RestaurantModel.fromJson(json.decode(payload));
-        Navigation.intentWithData(
+        navigatorKey.currentState?.pushNamed(
           route,
-          DetailArguments(
+          arguments: DetailArguments(
             dataRestaurant: restaurant,
             isFromFavorite: false,
           ),

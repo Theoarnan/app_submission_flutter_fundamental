@@ -16,7 +16,10 @@ class _SplashPageState extends State<SplashPage> {
   startSplashPage() async {
     var duration = const Duration(seconds: 3);
     return Timer(duration, () {
-      Navigator.of(context).pushReplacementNamed(RouterAppPath.homePage);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        RouterAppPath.homePage,
+        (route) => false,
+      );
     });
   }
 

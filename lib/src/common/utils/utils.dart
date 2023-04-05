@@ -27,7 +27,7 @@ class Utils {
     return initial;
   }
 
-  static Future<bool> isConnected() async {
+  Future<bool> isConnected() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) return false;
     return true;

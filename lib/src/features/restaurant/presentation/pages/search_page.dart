@@ -1,6 +1,5 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
-import 'package:app_submission_flutter_fundamental/src/common/router/navigation.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/empty_error_state.dart';
@@ -24,6 +23,7 @@ class _SearchPageState extends State<SearchPage> {
     return WillPopScope(
       onWillPop: () async {
         BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
+        Navigator.of(context).pop();
         return true;
       },
       child: Scaffold(
@@ -45,7 +45,7 @@ class _SearchPageState extends State<SearchPage> {
                           onPressed: () {
                             BlocProvider.of<RestaurantBloc>(context)
                                 .add(GetAllDataRestaurant());
-                            Navigation.back();
+                            Navigator.of(context).pop();
                           },
                           icon: const Icon(
                             Icons.arrow_back_ios_new,

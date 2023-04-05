@@ -6,6 +6,7 @@ import 'package:app_submission_flutter_fundamental/src/common/router/argument_de
 import 'package:app_submission_flutter_fundamental/src/common/utils/background_services.dart';
 import 'package:app_submission_flutter_fundamental/src/common/utils/notification_helper.dart';
 import 'package:app_submission_flutter_fundamental/src/common/utils/shared_preference_app.dart';
+import 'package:app_submission_flutter_fundamental/src/common/utils/utils.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/detail_restaurant_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/favorites_page.dart';
@@ -16,6 +17,8 @@ import 'package:app_submission_flutter_fundamental/src/features/settings/present
 import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/pages/settings_page.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/pages/splash_page.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
+import 'package:app_submission_flutter_fundamental/src/services/local_services.dart';
+import 'package:app_submission_flutter_fundamental/src/services/remote_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -46,7 +49,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => RestaurantBloc(),
+          create: (context) => RestaurantBloc(
+            localServices: LocalServices(),
+            utils: Utils(),
+            remoteServicesImpl: RemoteServicesImpl(),
+          ),
         ),
         BlocProvider(
           create: (context) => SettingBlocCubit()..getSetting(),

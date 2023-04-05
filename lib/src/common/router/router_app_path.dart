@@ -5,4 +5,5 @@ class RouterAppPath {
   static const detailRestaurantPage = '/detailRestaurantPage';
   static const favoritesRestaurantPage = '/favoritesRestaurantPage';
   static const settingsPage = '/settingsPage';
+  static const testPage = '/testPage';
 }

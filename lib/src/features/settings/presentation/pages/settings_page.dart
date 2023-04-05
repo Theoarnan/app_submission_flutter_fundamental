@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/dialog_state.dart';
 import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/bloc/setting_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/settings/presentation/bloc/setting_state.dart';
@@ -19,6 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        Navigator.of(context).pop(true);
         return true;
       },
       child: Scaffold(
@@ -26,9 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
           elevation: 0,
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed(
-                RouterAppPath.homePage,
-              );
+              Navigator.of(context).pop();
             },
             icon: const Icon(
               Icons.arrow_back_ios_new,
