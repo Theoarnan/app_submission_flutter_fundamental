@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:app_submission_flutter_fundamental/src/common/router/argument_detail.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/navigation.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -72,11 +72,11 @@ class NotificationHelper {
         payload: json.encode(restaurantModel.toMap()));
   }
 
-  void configureSelectNotificationSubject(BuildContext context, String route) {
+  void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
       (String payload) async {
         var restaurant = RestaurantModel.fromJson(json.decode(payload));
-        Navigator.of(context).pushNamed(
+        navigatorKey.currentState?.pushNamed(
           route,
           arguments: DetailArguments(
             dataRestaurant: restaurant,

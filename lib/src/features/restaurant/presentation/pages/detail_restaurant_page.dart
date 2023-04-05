@@ -14,10 +14,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailRestaurantPage extends StatefulWidget {
   final RestaurantModel restaurantModel;
   final bool isFromFavorites;
+  final bool isFromNotif;
   const DetailRestaurantPage({
     Key? key,
     required this.restaurantModel,
     this.isFromFavorites = false,
+    this.isFromNotif = false,
   }) : super(key: key);
 
   @override
@@ -40,7 +42,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     super.dispose();
     controller.dispose();
     nameController.dispose();

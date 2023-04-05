@@ -66,31 +66,22 @@ class MyApp extends StatelessWidget {
             title: 'Moo Makan',
             theme: getTheme(state, context),
             navigatorKey: navigatorKey,
-            onGenerateRoute: (settings) {
-              switch (settings.name) {
-                case RouterAppPath.splashPage:
-                  return MaterialPageRoute(builder: (_) => const SplashPage());
-                case RouterAppPath.homePage:
-                  return MaterialPageRoute(builder: (_) => const HomePage());
-                case RouterAppPath.searchPage:
-                  return MaterialPageRoute(builder: (_) => const SearchPage());
-                case RouterAppPath.detailRestaurantPage:
-                  return MaterialPageRoute(builder: (_) {
-                    final routeData = settings.arguments as DetailArguments;
-                    return DetailRestaurantPage(
-                      restaurantModel: routeData.dataRestaurant,
-                      isFromFavorites: routeData.isFromFavorite,
-                    );
-                  });
-                case RouterAppPath.favoritesRestaurantPage:
-                  return MaterialPageRoute(
-                      builder: (_) => const FavoritesPage());
-                case RouterAppPath.settingsPage:
-                  return MaterialPageRoute(
-                      builder: (_) => const SettingsPage());
-                default:
-                  return MaterialPageRoute(builder: (_) => const SplashPage());
-              }
+            initialRoute: RouterAppPath.splashPage,
+            routes: {
+              RouterAppPath.splashPage: (context) => const SplashPage(),
+              RouterAppPath.homePage: (context) => const HomePage(),
+              RouterAppPath.searchPage: (context) => const SearchPage(),
+              RouterAppPath.detailRestaurantPage: (context) {
+                final routeData = (ModalRoute.of(context)!.settings.arguments
+                    as DetailArguments);
+                return DetailRestaurantPage(
+                  restaurantModel: routeData.dataRestaurant,
+                  isFromFavorites: routeData.isFromFavorite,
+                );
+              },
+              RouterAppPath.favoritesRestaurantPage: (context) =>
+                  const FavoritesPage(),
+              RouterAppPath.settingsPage: (context) => const SettingsPage(),
             },
           );
         },
