@@ -16,6 +16,13 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   String search = '';
   @override
   Widget build(BuildContext context) {
@@ -23,6 +30,7 @@ class _SearchPageState extends State<SearchPage> {
     return WillPopScope(
       onWillPop: () async {
         BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
+        Navigator.of(context).pop();
         return true;
       },
       child: Scaffold(
@@ -44,11 +52,10 @@ class _SearchPageState extends State<SearchPage> {
                           onPressed: () {
                             BlocProvider.of<RestaurantBloc>(context)
                                 .add(GetAllDataRestaurant());
-                            Navigator.maybePop(context);
+                            Navigator.of(context).pop();
                           },
                           icon: const Icon(
                             Icons.arrow_back_ios_new,
-                            color: ThemeCustom.secondaryColor,
                           ),
                         ),
                         const SizedBox(
@@ -59,7 +66,7 @@ class _SearchPageState extends State<SearchPage> {
                             controller: searchController,
                             autofocus: true,
                             decoration: InputDecoration(
-                              hintText: 'Search restaurant or city...',
+                              hintText: 'Search restaurant...',
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               border: OutlineInputBorder(
@@ -129,21 +136,19 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           );
                         }
-                        return SizedBox(
-                          child: ListView.separated(
-                            itemCount: data.length,
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
-                            itemBuilder: (context, index) {
-                              final dataRestaurant = data[index];
-                              return ListTileRestaurant(
-                                dataRestaurant: dataRestaurant,
-                              );
-                            },
-                          ),
+                        return ListView.separated(
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                          itemBuilder: (context, index) {
+                            final dataRestaurant = data[index];
+                            return ListTileRestaurant(
+                              dataRestaurant: dataRestaurant,
+                            );
+                          },
                         );
                       }
 

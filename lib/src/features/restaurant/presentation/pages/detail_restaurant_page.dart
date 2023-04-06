@@ -13,9 +13,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailRestaurantPage extends StatefulWidget {
   final RestaurantModel restaurantModel;
+  final bool isFromFavorites;
+  final bool isFromNotif;
   const DetailRestaurantPage({
     Key? key,
     required this.restaurantModel,
+    this.isFromFavorites = false,
+    this.isFromNotif = false,
   }) : super(key: key);
 
   @override
@@ -30,26 +34,36 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
 
   @override
   void initState() {
+    BlocProvider.of<RestaurantBloc>(context).add(
+      GetDetailDataRestaurant(id: widget.restaurantModel.id),
+    );
     controller = TabController(vsync: this, length: 2);
     super.initState();
   }
 
   @override
-  void dispose() {
-    controller.dispose();
+  void dispose() async {
     super.dispose();
+    controller.dispose();
+    nameController.dispose();
+    reviewontroller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
+        if (widget.isFromFavorites) {
+          BlocProvider.of<RestaurantBloc>(context)
+              .add(GetAllFavoritesRestaurant());
+        } else {
+          BlocProvider.of<RestaurantBloc>(context).add(GetAllDataRestaurant());
+        }
+        Navigator.of(context).pop();
         return true;
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
         body: SafeArea(
           child: BlocListener<RestaurantBloc, RestaurantState>(
             listener: (context, state) {
@@ -68,6 +82,24 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                   title: 'Success',
                   subTitle:
                       'Thank you for your submitted review for the restaurant',
+                );
+              } else if (state is AddToFavoritesRestaurantSuccess ||
+                  state is RemoveFromFavoritesRestaurantSuccess) {
+                final stateRemoveFav =
+                    state is RemoveFromFavoritesRestaurantSuccess;
+                BlocProvider.of<RestaurantBloc>(context).add(
+                  GetDetailDataRestaurant(id: widget.restaurantModel.id),
+                );
+                DialogState.dialogState(
+                  context,
+                  icon: Icon(
+                    Icons.check_circle,
+                    size: 90,
+                    color: Colors.green.withOpacity(0.8),
+                  ),
+                  title: stateRemoveFav ? 'Removed' : 'Added',
+                  subTitle:
+                      '${widget.restaurantModel.name} ${stateRemoveFav ? 'remove from' : 'add to'} favorites',
                 );
               }
             },
@@ -137,19 +169,59 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                               left: 16,
                               child: GestureDetector(
                                 onTap: () {
-                                  BlocProvider.of<RestaurantBloc>(context)
-                                      .add(GetAllDataRestaurant());
-                                  Navigator.pop(context);
+                                  if (widget.isFromFavorites) {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(GetAllFavoritesRestaurant());
+                                  } else {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(GetAllDataRestaurant());
+                                  }
+                                  Navigator.of(context).pop();
                                 },
                                 child: Container(
                                   height: 40,
                                   width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.7),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(Icons.arrow_back_ios_new,
-                                      size: 20),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios_new,
+                                    color: ThemeCustom.secondaryColor,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 16,
+                              right: 16,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (state.isFavorite) {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(RemoveFromFavoritesRestaurant(
+                                            id: data.id));
+                                  } else {
+                                    BlocProvider.of<RestaurantBloc>(context)
+                                        .add(AddToFavoritesRestaurant(
+                                            data: data));
+                                  }
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.bookmark,
+                                    size: 20,
+                                    color: state.isFavorite
+                                        ? ThemeCustom.yellowColor
+                                        : Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),
@@ -242,7 +314,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: ThemeCustom.secondaryColor,
                                 ),
                               ),
                               const SizedBox(
@@ -277,7 +348,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: ThemeCustom.secondaryColor,
                                     ),
                                   ),
                                   GestureDetector(
@@ -286,11 +356,13 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
-                                            title: const Text(
-                                              'All Reviews',
-                                              style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.bold,
+                                            title: const Material(
+                                              child: Text(
+                                                'All Reviews',
+                                                style: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                             content: SizedBox(
@@ -334,7 +406,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                                 ],
                               ),
                               const SizedBox(
-                                height: 6,
+                                height: 8,
                               ),
                               SizedBox(
                                 child: ListView.separated(
@@ -439,7 +511,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                     'Add Review',
                     style: TextStyle(
                       fontSize: 24,
-                      color: ThemeCustom.secondaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -524,7 +595,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -533,7 +604,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
               style: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: ThemeCustom.secondaryColor,
               ),
             ),
           ),
@@ -552,7 +622,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ).copyWith(top: 16),
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             children: [
               Align(
@@ -563,7 +633,6 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
                   style: TextStyle(
                     fontSize: fontSize,
                     fontWeight: FontWeight.bold,
-                    color: ThemeCustom.secondaryColor,
                   ),
                 ),
               ),
@@ -572,9 +641,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage>
               ),
               TabBar(
                 controller: controller,
-                unselectedLabelColor:
-                    ThemeCustom.secondaryColor.withOpacity(0.8),
-                labelColor: ThemeCustom.primaryColor,
+                indicatorColor: ThemeCustom.primaryColor,
                 tabs: [
                   _tabCustom(
                     icon: Icons.restaurant_menu_sharp,

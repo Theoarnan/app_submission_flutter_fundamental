@@ -1,23 +1,26 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/customer_review_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_detail_model.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
 import 'package:http/http.dart' as http;
 
-abstract class ApiServices {
+abstract class RemoteServices {
   Future<List<CustomerReviewModel>> addReviewsRestaurant(
     Map<String, dynamic>? reviews,
   );
   Future<List<RestaurantModel>> getRestaurantData();
   Future<RestaurantDetailModel> getRestaurantDetail(String id);
   Future<List<RestaurantModel>> searchRestaurant(String? search);
+  Future<RestaurantModel> getRandomRestaurant();
 }
 
-class ApiServicesImpl implements ApiServices {
+class RemoteServicesImpl implements RemoteServices {
   static const String _baseUrl = 'https://restaurant-api.dicoding.dev';
-  // Endpoint
+
+  /// Endpoint
   static const String _getListRestaurant = '$_baseUrl/list';
   static const String _getDetailRestaurant = '$_baseUrl/detail/';
   static const String _searchRestaurant = '$_baseUrl/search?q=';
@@ -76,5 +79,13 @@ class ApiServicesImpl implements ApiServices {
     } else {
       throw Exception('Failed to load search restaurant data');
     }
+  }
+
+  @override
+  Future<RestaurantModel> getRandomRestaurant() async {
+    final listRestaurant = await getRestaurantData();
+    final randomRestaurant =
+        listRestaurant[Random().nextInt(listRestaurant.length - 1)];
+    return randomRestaurant;
   }
 }

@@ -19,10 +19,11 @@ class ListTileReview extends StatelessWidget {
       contentPadding: const EdgeInsets.all(0),
       style: ListTileStyle.list,
       leading: CircleAvatar(
+        backgroundColor: ThemeCustom.primaryColor.withOpacity(0.2),
         child: Text(
           Utils.generateInitialText(data.name),
-          style: TextStyle(
-            color: ThemeCustom.secondaryColor.withOpacity(0.8),
+          style: const TextStyle(
+            color: ThemeCustom.yellowColor,
             fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
@@ -56,19 +57,15 @@ class ListTileReview extends StatelessWidget {
       subtitle: SizedBox(
         width: MediaQuery.of(context).size.width * 0.2,
         child: isDetailReviews!
-            ? Text(
-                data.review,
+            ? Text(data.review,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 14,
-                ),
-              )
+                ))
             : Text(
                 data.review,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
+                style: const TextStyle(fontSize: 14),
               ),
       ),
     );

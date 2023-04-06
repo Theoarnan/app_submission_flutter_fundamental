@@ -1,29 +1,30 @@
 import 'package:app_submission_flutter_fundamental/src/common/constants/constants_name.dart';
 import 'package:app_submission_flutter_fundamental/src/common/constants/theme_custom.dart';
+import 'package:app_submission_flutter_fundamental/src/common/router/argument_detail.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/data/models/restaurant_model.dart';
-import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/bloc/restaurant_bloc.dart';
 import 'package:app_submission_flutter_fundamental/src/features/restaurant/presentation/widgets/icon_text_custom.dart';
 import 'package:app_submission_flutter_fundamental/src/common/router/router_app_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListTileRestaurant extends StatelessWidget {
   final RestaurantModel dataRestaurant;
+  final bool isFromFavorite;
   const ListTileRestaurant({
     Key? key,
     required this.dataRestaurant,
+    this.isFromFavorite = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        BlocProvider.of<RestaurantBloc>(context).add(
-          GetDetailDataRestaurant(id: dataRestaurant.id),
-        );
         Navigator.of(context).pushNamed(
           RouterAppPath.detailRestaurantPage,
-          arguments: dataRestaurant,
+          arguments: DetailArguments(
+            dataRestaurant: dataRestaurant,
+            isFromFavorite: isFromFavorite,
+          ),
         );
       },
       title: Row(
@@ -66,7 +67,6 @@ class ListTileRestaurant extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: ThemeCustom.secondaryColor,
                   ),
                 ),
               ),

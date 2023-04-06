@@ -17,37 +17,41 @@ class GridDetailRestaurant extends StatelessWidget {
       crossAxisCount: 2,
       physics: const ClampingScrollPhysics(),
       children: List.generate(data.length, (index) {
-        return Card(
-          color: Colors.white,
-          elevation: 1,
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    isFoodsSection
-                        ? '${ConstantName.dirAssetImg}illustration_food.png'
-                        : '${ConstantName.dirAssetImg}illustration_drink.png',
-                    fit: BoxFit.cover,
+        return GestureDetector(
+          onTap: () {},
+          child: Card(
+            elevation: 1,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                    child: Image.asset(
+                      isFoodsSection
+                          ? '${ConstantName.dirAssetImg}illustration_food.png'
+                          : '${ConstantName.dirAssetImg}illustration_drink.png',
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                ).copyWith(bottom: 8),
-                child: Text(
-                  data[index].name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                  ).copyWith(bottom: 10),
+                  child: Text(
+                    data[index].name,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }),

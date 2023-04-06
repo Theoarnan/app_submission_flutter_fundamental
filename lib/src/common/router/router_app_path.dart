@@ -3,4 +3,7 @@ class RouterAppPath {
   static const homePage = '/homePage';
   static const searchPage = '/searchPage';
   static const detailRestaurantPage = '/detailRestaurantPage';
+  static const favoritesRestaurantPage = '/favoritesRestaurantPage';
+  static const settingsPage = '/settingsPage';
+  static const testPage = '/testPage';
 }
