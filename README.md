@@ -1,4 +1,4 @@
-# Submission 3 Dicoding
+# Submission Dicoding
 This is a project for Submission Dicoding Belajar Fundamental Aplikasi Flutter 2023.
  
 ## Mau Makan
