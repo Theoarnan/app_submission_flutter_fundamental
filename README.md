@@ -1,16 +1,19 @@
-# app_submission_flutter_fundamental
+# Submission 3 Dicoding
+This is a project for Submission Dicoding Belajar Fundamental Aplikasi Flutter 2023.
+ 
+## Mau Makan
+This is an application that displays accommodation that makes it easy for travelers to see and choose their vacation destinations.
 
-A new Flutter project.
+<img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%">
 
-## Getting Started
+### Clone 
+https://github.com/Theoarnan/app_submission_flutter_fundamental/archive/refs/heads/master.zip
 
-This project is a starting point for a Flutter application.
+#### Submission 1 Branch : https://shorturl.at/diHM2
 
-A few resources to get you started if this is your first Flutter project:
+#### Submission 2 Branch : https://shorturl.at/awTU4
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+#### Submission 3 Branch : https://shorturl.at/jSZ79
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Authors
+- [@theoarnan](https://www.github.com/theoarnan)
