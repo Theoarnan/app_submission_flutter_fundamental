@@ -19,9 +19,9 @@ This is an application that displays accommodation that makes it easy for travel
 
 #### Dependencies
 - [Google Font](https://pub.dev/packages/google_fonts)
-## Screenshots
+## App Demo
 
-#### Simple Features
+#### Gif
 https://shorturl.at/cuFJ7
 
 
