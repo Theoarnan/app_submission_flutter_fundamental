@@ -21,7 +21,8 @@ This is an application that displays accommodation that makes it easy for travel
 - [Google Font](https://pub.dev/packages/google_fonts)
 ## Screenshots
 
-![App Screenshot](https://drive.google.com/uc?export=view&id=1arBAMZ9bOJxRviLFpBkJvo-mRZK1Yjz2)
+# GIF APP 
+shorturl.at/cuFJ7
 
 
 ## Authors
