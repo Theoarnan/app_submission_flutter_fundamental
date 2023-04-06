@@ -1,16 +1,34 @@
-# app_submission_flutter_fundamental
+# Submission 3 Dicoding
 
-A new Flutter project.
+This is a project for Submission Dicoding Belajar Fundamental Aplikasi Flutter 2023.
 
-## Getting Started
+## Mau Makan
 
-This project is a starting point for a Flutter application.
+This is an application that displays accommodation that makes it easy for travelers to see and choose their vacation destinations.
 
-A few resources to get you started if this is your first Flutter project:
+<img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%">
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+#### Simple Features
+- Last Fitur Submission 1 & 2
+- Background Services
+- Notification
+- Sqflite
+- Theme Mode
+- Unit Test
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Dependencies
+- Last Dependencies Submission 1 & 2
+- [sqflite](https://pub.dev/packages/sqflite)
+- [path](https://pub.dev/packages/path)
+- [shared_preferences](https://pub.dev/packages/shared_preferences)
+- [intl](https://pub.dev/packages/intl)
+- [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
+- [android_alarm_manager_plus](https://pub.dev/packages/android_alarm_manager_plus)
+- [rxdart](https://pub.dev/packages/rxdart)
+
+## Demo
+Link Demo : https://shorturl.at/IPU36
+
+## Authors
+
+- [@theoarnan](https://www.github.com/theoarnan)
