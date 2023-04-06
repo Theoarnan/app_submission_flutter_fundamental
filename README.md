@@ -22,7 +22,7 @@ This is an application that displays accommodation that makes it easy for travel
 ## Screenshots
 
 # GIF APP 
-shorturl.at/cuFJ7
+https://shorturl.at/cuFJ7
 
 
 ## Authors
