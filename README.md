@@ -1,12 +1,8 @@
 
 # Submission 2 Dicoding
-
 This is a project for Submission Dicoding Belajar Fundamental Aplikasi Flutter 2023.
- 
-
 
 ## Mau Makan
-
 This is an application that displays accommodation that makes it easy for travelers to see and choose their vacation destinations.
 
 <img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%"><img src="https://cdn-icons-png.flaticon.com/512/541/541415.png"  width="4%" height="4%">
@@ -22,8 +18,7 @@ This is an application that displays accommodation that makes it easy for travel
 ## App Demo
 
 #### Gif
-https://shorturl.at/cuFJ7
-
+[Link Demo App](https://drive.google.com/file/d/1arBAMZ9bOJxRviLFpBkJvo-mRZK1Yjz2/view?usp=drive_link)
 
 ## Authors
 
