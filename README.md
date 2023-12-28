@@ -13,7 +13,7 @@ https://github.com/Theoarnan/app_submission_flutter_fundamental/archive/refs/hea
 
 #### Submission 2 Branch : [Link v2](https://github.com/Theoarnan/app_submission_flutter_fundamental/tree/release/submission_2_flutter_fundamental)
 
-#### Submission 3 Branch : [Link v3](https://github.com/Theoarnan/app_submission_flutter_fundamental/tree/release/submission_3_flutter_fundamental)https://github.com/Theoarnan/app_submission_flutter_fundamental/tree/release/submission_3_flutter_fundamental
+#### Submission 3 Branch : [Link v2](https://github.com/Theoarnan/app_submission_flutter_fundamental/tree/release/submission_3_flutter_fundamental)
 
 ## Authors
 - [@theoarnan](https://www.github.com/theoarnan)
